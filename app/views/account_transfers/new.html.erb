@@ -1,0 +1,5 @@
+<%= form_with scope: :account_transfer, url: account_transfer_path do |form| %>
+  <p><%= form.number_field :target_account_number, placeholder: "Target account number", required: true %></p>
+  <p><%= form.number_field :amount, placeholder: "Amount", required: true %></p>
+  <%= form.submit "Transfer" %>
+<% end %>
