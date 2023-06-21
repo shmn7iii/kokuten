@@ -8,6 +8,7 @@ ruby '3.2.2'
 gem 'rails', '~> 7.0.5'
 
 gem 'bootsnap', require: false
+gem 'dotenv-rails'
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'puma', '~> 5.0'
