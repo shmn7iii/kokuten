@@ -1,4 +1,4 @@
-<%= form_with scope: :withdrawal, url: withdrawal_path do |form| %>
+<%= form_with scope: :withdrawal, url: account_withdrawal_path do |form| %>
   <p><%= form.number_field :amount, placeholder: "Amount", required: true %></p>
   <%= form.submit "Withdrawal" %>
 <% end %>

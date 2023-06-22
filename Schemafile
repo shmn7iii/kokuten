@@ -22,6 +22,28 @@ create_table 'accounts', comment: '口座'  do |t|
   t.timestamps null: false
 end
 
+create_table 'wallets', comment: 'ウォレット'  do |t|
+  t.references :user, null: false, foreign_key: { to_table: :users }
+  t.string :glueby_wallet_id, null: false, comment: 'ウォレットID'
+
+  t.timestamps null: false
+end
+
+create_table 'tokens', comment: 'トークン'  do |t|
+  t.string :payload, null: false, comment: 'トークンペイロード'
+
+  t.timestamps null: false
+end
+
+create_table 'funds_transactions', comment: '資金の流れを追うモデル'  do |t|
+  t.references :source, polymorphic: true
+  t.references :target, polymorphic: true
+  t.integer :transaction_type, null: false, comment: 'TODO:'
+  t.datetime :transaction_time, null: false, comment: '取引日時'
+
+  t.timestamps null: false
+end
+
 create_table 'account_transactions', comment: '口座入出金履歴'  do |t|
   t.references :account, null: false, foreign_key: { to_table: :accounts }
   t.decimal :amount, null: false, comment: '金額'
@@ -31,25 +53,20 @@ create_table 'account_transactions', comment: '口座入出金履歴'  do |t|
   t.timestamps null: false
 end
 
-create_table 'account_transfer_transactions', comment: '口座振替履歴'  do |t|
-  t.integer :source_id, null: false, foreign_key: true
-  t.integer :target_id, null: false, foreign_key: true
+create_table 'wallet_transactions', comment: 'ウォレット入出金履歴'  do |t|
+  t.references :wallet, null: false, foreign_key: { to_table: :wallets }
+  t.decimal :amount, null: false, comment: '金額'
+  t.integer :transaction_type, null: false, comment: '0: 入金, 1: 出金, 2: 送金'
   t.datetime :transaction_time, null: false, comment: '取引日時'
 
   t.timestamps null: false
 end
 
-create_table 'wallets', comment: 'ウォレット'  do |t|
-  t.references :user, null: false, foreign_key: { to_table: :users }
-  t.string :glueby_wallet_id, null: false, comment: 'ウォレットID'
-
-  t.timestamps null: false
-end
-
-create_table 'wallet_transactions', comment: 'ウォレット入出金履歴'  do |t|
-  t.references :wallet, null: false, foreign_key: { to_table: :wallets }
+create_table 'token_transactions', comment: 'トークン生成履歴'  do |t|
+  t.references :token, null: false, foreign_key: { to_table: :tokens }
   t.decimal :amount, null: false, comment: '金額'
-  t.integer :transaction_type, null: false, comment: '0: 入金, 1: 出金, 2: 送金'
+  t.string :tapyrus_transaction_payload, null: false, comment: 'Tapyrusトランザクションのハッシュ'
+  t.integer :transaction_type, null: false, comment: '0: 発行, 1: 焼却'
   t.datetime :transaction_time, null: false, comment: '取引日時'
 
   t.timestamps null: false

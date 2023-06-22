@@ -6,12 +6,14 @@ class Wallet < ApplicationRecord
   belongs_to :user
   has_many :wallet_transactions
 
-  def load
-    Glueby::Wallet.load(glueby_wallet_id)
+  def balance
+    # TODO: maybe not first
+    Token.first.balance(wallet: self)
   end
 
-  # TODO: 任意のトークンのバランスのみ取得
-  # def balance
-  #  load.balances.
-  # end
+  def pay_to(wallet:); end
+
+  def glueby_wallet
+    @glueby_wallet ||= Glueby::Wallet.load(glueby_wallet_id)
+  end
 end
