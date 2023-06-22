@@ -8,4 +8,5 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { maximum: 255 }
 
   has_one :account
+  has_one :wallet
 end
