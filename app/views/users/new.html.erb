@@ -1,8 +1,0 @@
-<%= form_with scope: :user, url: user_path do |form| %>
-  <p><%= form.text_field :username, placeholder: "Username", required: true %></p>
-  <p><%= form.text_field :first_name, placeholder: "First name", required: true %></p>
-  <p><%= form.text_field :last_name, placeholder: "Last name", required: true %></p>
-  <p><%= form.text_field :phone_number, placeholder: "Phone number", required: true %></p>
-  <p><%= form.text_field :email, placeholder: "email", required: true %></p>
-  <%= form.submit "Sign up" %>
-<% end %>
