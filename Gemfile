@@ -10,6 +10,7 @@ gem 'rails', '~> 7.0.5'
 gem 'administrate'
 gem 'bootsnap', require: false
 gem 'dotenv-rails'
+gem 'glueby'
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'puma', '~> 5.0'
