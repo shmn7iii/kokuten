@@ -1,0 +1,4 @@
+<%= form_with scope: :deposit, url: account_deposit_path do |form| %>
+  <p><%= form.number_field :amount, placeholder: "Amount", required: true %></p>
+  <%= form.submit "Deposit" %>
+<% end %>
