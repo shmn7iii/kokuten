@@ -9,4 +9,12 @@ Rails.application.routes.draw do
   resource :deposit, only: %i[new create]
   resource :withdrawal, only: %i[new create]
   resource :account_transfer, only: %i[new create]
+
+  namespace :admin do
+    root to: 'users#index'
+    resources :users
+    resources :account_transfer_transactions
+    resources :account_transactions
+    resources :accounts
+  end
 end
