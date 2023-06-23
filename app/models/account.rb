@@ -11,7 +11,7 @@ class Account < ApplicationRecord
 
   after_initialize do
     self.balance ||= 0.0
-    self.account_number ||= "1#{format('%06d', SecureRandom.random_number(10**6))}"
+    self.account_number ||= format('%07d', SecureRandom.random_number(10**7))
     self.branch_code ||= '101'
     self.branch_name ||= '本店'
   end

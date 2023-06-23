@@ -5,21 +5,10 @@ Rails.application.routes.draw do
 
   resource :session, only: %i[new create destroy]
   resource :user, only: %i[show new create]
-
-  resource :account, only: %i[show] do
-    scope module: :accounts do
-      resource :deposit, only: %i[new create]
-      resource :withdrawal, only: %i[new create]
-      resource :transfer, only: %i[new create]
-    end
-  end
-
-  resource :wallet, only: %i[show new create] do
-    scope module: :wallets do
-      resource :deposit, only: %i[new create]
-      resource :withdrawal, only: %i[new create]
-    end
-  end
+  resource :account, only: %i[show]
+  resource :deposit, only: %i[new create]
+  resource :withdrawal, only: %i[new create]
+  resource :account_transfer, only: %i[new create]
 
   namespace :admin do
     root to: 'users#index'
