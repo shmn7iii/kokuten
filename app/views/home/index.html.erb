@@ -1,9 +1,16 @@
 <h1> hello, world!</h1>
+<h2>Total amount of token: <%= Token.instance.total_amount %></h2>
 
 <% if current_user %>
   <h3>Current: <%= current_user.username %></h3>
+  <% if current_user.account.present? %>
+    <h3>Account balance: <%= number_to_currency(current_user.account.balance.to_s, unit: '¥ ', precision: 0) %></h3>
+  <% end %>
+  <% if current_user.wallet.present? %>
+    <h3>Wallet balance:  <%= number_to_currency(current_user.wallet.balance.to_s, unit: '₳ ', precision: 0) %></h3>
+  <% end %>
   <div>
-    <%= link_to 'View accounts', account_path %>
+    <%= link_to 'View account', account_path %>
     <%= link_to 'View wallet', wallet_path %>
   </div>
   <div><%= button_to 'Log out', session_path, method: :delete %></div>

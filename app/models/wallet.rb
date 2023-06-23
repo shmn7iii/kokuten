@@ -6,9 +6,12 @@ class Wallet < ApplicationRecord
   belongs_to :user
   has_many :wallet_transactions
 
+  after_initialize do
+    self.glueby_wallet_id ||= Glueby::Wallet.create.id
+  end
+
   def balance
-    # TODO: maybe not first
-    Token.first.balance(wallet: self)
+    Token.instance.amount(wallet: glueby_wallet)
   end
 
   def pay_to(wallet:); end

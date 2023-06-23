@@ -20,12 +20,4 @@ Rails.application.routes.draw do
       resource :withdrawal, only: %i[new create]
     end
   end
-
-  namespace :admin do
-    root to: 'users#index'
-    resources :users
-    resources :account_transfer_transactions
-    resources :account_transactions
-    resources :accounts
-  end
 end

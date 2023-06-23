@@ -12,7 +12,7 @@ class WalletsController < ApplicationController
   def new; end
 
   def create
-    CreateWalletService.call(user: current_user)
+    current_user.build_wallet.save!
 
     redirect_to current_user.wallet
   end
