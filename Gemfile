@@ -1,33 +1,33 @@
-# frozen_string_literal: true
-
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.2.2'
+ruby '3.1.3'
 
-gem 'rails', '~> 7.0.5'
+gem 'rails', '6.1.3'
 
-gem 'administrate'
-gem 'bootsnap', require: false
+gem 'bootsnap', '>= 1.4.4', require: false
 gem 'dotenv-rails'
 gem 'glueby'
-gem 'importmap-rails'
-gem 'jbuilder'
+gem 'jbuilder', '~> 2.7'
+gem 'psych', '~> 3.1'
 gem 'puma', '~> 5.0'
 gem 'ridgepole'
-gem 'sprockets-rails'
+gem 'sass-rails', '>= 6'
 gem 'sqlite3', '~> 1.4'
-gem 'stimulus-rails'
-gem 'turbo-rails'
+gem 'turbolinks', '~> 5'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+gem 'webpacker', '5.4.3'
 
 group :development, :test do
-  gem 'debug', platforms: %i[mri mingw x64_mingw]
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
   gem 'pry-rails'
 end
 
 group :development do
+  gem 'listen', '~> 3.3'
+  gem 'rack-mini-profiler', '~> 2.0'
   gem 'rubocop'
-  gem 'web-console'
+  gem 'spring'
+  gem 'web-console', '>= 4.1.0'
 end

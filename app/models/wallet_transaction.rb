@@ -6,6 +6,8 @@ class WalletTransaction < ApplicationRecord
   validates :transaction_time, presence: true
 
   belongs_to :wallet
+  has_one :funds_transaction, as: :source
+  has_one :funds_transaction, as: :target
 
   enum transaction_type: {
     deposit: 0, # 入金
