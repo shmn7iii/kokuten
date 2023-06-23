@@ -2,7 +2,7 @@
 
 module Tokens
   class IssueTokenService < BaseService
-    TOKEN_PAYLOAD = 'HOGE'
+    TOKEN_PAYLOAD = 'HOGE' # TODO: .envにでも書きたい
 
     def initialize(wallet:, amount:)
       @wallet = wallet
@@ -12,13 +12,10 @@ module Tokens
     end
 
     def call
-      @token.issue!(wallet: @wallet, amount: @amount)
+      _, tx = @token.glueby_token.reissue!(issuer: @wallet.glueby_wallet, amount: @amount)
 
-      transaction_time = Time.current
-      source = TokenTransaction.create!(token: @token, amount: -@amount, transaction_type: :issue, transaction_time:) # 正負反転
-      target = WalletTransaction.create!(wallet: @wallet, amount: @amount, transaction_type: :deposit,
-                                         transaction_time:)
-      FundsTransaction.create!(source:, target:, transaction_type: :wallet_deposit, transaction_time:)
+      TokenTransaction.create!(token: @token, amount: @amount, tapyrus_transaction_payload: tx.to_payload,
+                               transaction_type: :issue, transaction_time: Time.current)
     end
   end
 end

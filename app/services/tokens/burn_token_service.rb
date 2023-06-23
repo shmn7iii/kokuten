@@ -12,13 +12,10 @@ module Tokens
     end
 
     def call
-      @token.burn!(wallet: @wallet, amount: @amount)
+      tx = @token.glueby_token.burn!(sender: @wallet.glueby_wallet, amount: @amount)
 
-      transaction_time = Time.current
-      source = WalletTransaction.create!(wallet: @wallet, amount: -@amount, transaction_type: :deposit,
-                                         transaction_time:)
-      target = TokenTransaction.create!(token: @token, amount: @amount, transaction_type: :issue, transaction_time:) # 正負反転
-      FundsTransaction.create!(source:, target:, transaction_type: :wallet_deposit, transaction_time:)
+      TokenTransaction.create!(token: @token, amount: -@amount, tapyrus_transaction_payload: tx.to_payload,
+                               transaction_type: :burn, transaction_time: Time.current)
     end
   end
 end

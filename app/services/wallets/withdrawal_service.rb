@@ -11,7 +11,9 @@ module Wallets
     def call
       transaction_time = Time.current
 
-      source = Tokens::BurnTokenService.call(wallet: @wallet, amount: @amount)
+      token_transaction = Tokens::BurnTokenService.call(wallet: @wallet, amount: @amount)
+      source = WalletTransaction.create!(wallet: @wallet, amount: -@amount, token_transaction:,
+                                         transaction_type: :withdrawal, transaction_time:)
       target = AccountTransaction.create!(account: @account, amount: @amount,
                                           transaction_type: :transfer, transaction_time:)
       @account.update!(balance: @account.balance + @amount)

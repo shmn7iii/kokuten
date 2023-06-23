@@ -15,7 +15,9 @@ module Wallets
                                           transaction_type: :transfer, transaction_time:)
       @account.update!(balance: @account.balance - @amount)
 
-      target = Tokens::IssueTokenService.call(wallet: @wallet, amount: @amount)
+      token_transaction = Tokens::IssueTokenService.call(wallet: @wallet, amount: @amount)
+      target = WalletTransaction.create!(wallet: @wallet, amount: @amount, token_transaction:,
+                                         transaction_type: :deposit, transaction_time:)
 
       FundsTransaction.create!(source:, target:, transaction_type: :wallet_deposit, transaction_time:)
     end

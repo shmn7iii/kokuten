@@ -4,10 +4,6 @@ class FundsTransaction < ApplicationRecord
   belongs_to :source, polymorphic: true
   belongs_to :target, polymorphic: true
 
-  # これ行ける?
-  has_one :funds_transaction, as: :source
-  has_one :funds_transaction, as: :target
-
   enum transaction_type: {
     account_deposit: 0, # 入金
     account_withdrawal: 1, # 出金

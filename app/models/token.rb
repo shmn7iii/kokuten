@@ -9,16 +9,6 @@ class Token < ApplicationRecord
     glueby_token.amount(wallet:)
   end
 
-  def issue!(wallet:, amount:)
-    glueby_token.reissue!(issuer: wallet.glueby_wallet, amount:)
-    glueby_token.amount(wallet:)
-  end
-
-  def burn!(wallet:, amount:)
-    glueby_token.reissue!(issuer: wallet.glueby_wallet, amount:)
-    glueby_token.amount(wallet:)
-  end
-
   def glueby_token
     @glueby_token ||= Glueby::Contract::Token.parse_from_payload(payload)
   end
