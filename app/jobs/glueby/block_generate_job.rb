@@ -7,7 +7,7 @@ module Glueby
     def perform(*_args)
       # Generate block to UTXO Provider's address
       utxo_provider_address = Glueby::UtxoProvider.instance.address
-      aggregate_private_key = ENV['AUTHORITY_KEY']
+      aggregate_private_key = ENV['TAPYRUS_AUTHORITY_KEY']
       Glueby::Internal::RPC.client.generatetoaddress(1, utxo_provider_address, aggregate_private_key)
 
       # Start BlockSyncer
