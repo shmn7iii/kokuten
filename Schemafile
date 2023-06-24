@@ -40,8 +40,8 @@ create_table 'tokens', comment: 'トークン'  do |t|
 end
 
 create_table 'funds_transactions', comment: '資金の流れを追うモデル'  do |t|
-  t.references :source, polymorphic: true
-  t.references :target, polymorphic: true
+  t.references :source, null: true, polymorphic: true
+  t.references :target, null: true, polymorphic: true
   t.integer :transaction_type, null: false, comment: 'TODO:'
   t.datetime :transaction_time, null: false, comment: '取引日時'
 

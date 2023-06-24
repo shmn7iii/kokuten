@@ -8,10 +8,12 @@ module Accounts
     end
 
     def call
-      AccountTransaction.create!(account: @account, amount: -@amount,
-                                 transaction_type: :withdrawal, transaction_time: Time.current)
-
+      source = AccountTransaction.create!(account: @account, amount: -@amount,
+                                          transaction_type: :withdrawal, transaction_time: Time.current)
       @account.update!(balance: @account.balance - @amount)
+
+      FundsTransaction.create!(source:, target: nil, transaction_type: :account_withdrawal,
+                               transaction_time: Time.current)
     end
   end
 end

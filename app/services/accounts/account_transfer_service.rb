@@ -9,17 +9,15 @@ module Accounts
     end
 
     def call
-      transaction_time = Time.current
-
       source = AccountTransaction.create!(account: @source_account, amount: -@amount,
-                                          transaction_type: :transfer, transaction_time:)
+                                          transaction_type: :transfer, transaction_time: Time.current)
       @source_account.update!(balance: @source_account.balance - @amount)
 
       target = AccountTransaction.create!(account: @target_account, amount: @amount,
-                                          transaction_type: :transfer, transaction_time:)
+                                          transaction_type: :transfer, transaction_time: Time.current)
       @target_account.update!(balance: @target_account.balance + @amount)
 
-      FundsTransaction.create!(source:, target:, transaction_type: :account_transfer, transaction_time:)
+      FundsTransaction.create!(source:, target:, transaction_type: :account_transfer, transaction_time: Time.current)
     end
   end
 end

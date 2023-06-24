@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 class FundsTransaction < ApplicationRecord
-  belongs_to :source, polymorphic: true
-  belongs_to :target, polymorphic: true
+  validates :transaction_type, presence: true
+  validates :transaction_time, presence: true
+
+  belongs_to :source, polymorphic: true, optional: true
+  belongs_to :target, polymorphic: true, optional: true
 
   enum transaction_type: {
     account_deposit: 0, # 入金
