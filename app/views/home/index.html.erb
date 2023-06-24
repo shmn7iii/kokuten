@@ -4,10 +4,10 @@
 <% if current_user %>
   <h3>Current: <%= current_user.username %></h3>
   <% if current_user.account.present? %>
-    <h3>Account balance: <%= number_to_currency(current_user.account.balance.to_s, unit: '¥ ', precision: 0) %></h3>
+    <h3>Account balance: <%= number_to_currency(current_user.account.balance, locale: :jp) %></h3>
   <% end %>
   <% if current_user.wallet.present? %>
-    <h3>Wallet balance:  <%= number_to_currency(current_user.wallet.balance.to_s, unit: '₳ ', precision: 0) %></h3>
+    <h3>Wallet balance:  <%= number_to_currency(current_user.wallet.balance, locale: :jp, unit: '₳ ') %></h3>
   <% end %>
   <div>
     <%= link_to 'View account', account_path %>

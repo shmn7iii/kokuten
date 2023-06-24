@@ -1,6 +1,6 @@
 <%= link_to '<- Home', root_path %>
 
-<h3>Balance: <%= number_to_currency(@wallet.balance.to_s, unit: '₳ ', precision: 0) %> </h3>
+<h3>Balance: <%= number_to_currency(@wallet.balance, locale: :jp, unit: '₳ ') %> </h3>
 
 <table border="1">
   <tr>
@@ -12,7 +12,7 @@
   <% @wallet.wallet_transactions.order(transaction_time: :DESC).each do |at| %>
     <tr>
       <td><%= at.id %></td>
-      <td><%= number_to_currency(at.amount, unit: '₳ ', precision: 0) %></td>
+      <td><%= number_to_currency(at.amount, locale: :jp, unit: '₳ ') %></td>
       <td><%= at.transaction_type %></td>
       <td><%= at.transaction_time %></td>
     </tr>
