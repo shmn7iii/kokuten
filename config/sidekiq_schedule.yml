@@ -1,0 +1,5 @@
+generate_block_job:
+  cron: "*/1 * * * *"
+  class: "GluebyBlockGenerateJob"
+  description: "1分毎に ブロックを生成する"
+
