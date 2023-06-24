@@ -1,0 +1,9 @@
+generate_block_job:
+  cron: "*/1 * * * *"
+  class: "GluebyBlockGenerateJob"
+  description: "1分毎に ブロックを生成する"
+
+manage_utxo_pool_job:
+  cron: "*/5 * * * *"
+  class: "ManageUtxoPoolJob"
+  description: "5分毎に UTXO Provider の UTX　pool を調整する"
