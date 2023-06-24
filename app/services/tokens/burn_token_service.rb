@@ -10,10 +10,17 @@ module Tokens
     end
 
     def call
-      tx = @token.burn!(wallet: @wallet, amount: @amount)
+      ActiveRecord::Base.transaction do
+        tx = @token.burn!(wallet: @wallet, amount: @amount)
 
-      TokenTransaction.create!(token: @token, amount: -@amount, tapyrus_transaction_payload_hex: tx.to_payload.bth,
-                               transaction_type: :burn, transaction_time: Time.current)
+        TokenTransaction.create!(
+          token: @token,
+          amount: -@amount,
+          tapyrus_transaction_payload_hex: tx.to_payload.bth,
+          transaction_type: :burn,
+          transaction_time: Time.current
+        )
+      end
     end
   end
 end

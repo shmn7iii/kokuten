@@ -24,20 +24,20 @@ class Token < ApplicationRecord
     glueby_token.amount(wallet:)
   end
 
-  # すげえ時間かかるので非同期化なりどうにかしたい気持ち
+  # すげえ時間かかるので非同期化なりどうにかしたい気持ち\
   def issue!(wallet:, amount:)
     _, tx = glueby_token.reissue!(issuer: utxo_provider_wallet, amount:)
-    system('bundle exec rake kokuten:glueby:generate')
+    generate
     glueby_token.transfer!(sender: utxo_provider_wallet,
                            receiver_address: wallet.glueby_wallet.internal_wallet.receive_address,
                            amount:)
-    system('bundle exec rake kokuten:glueby:generate')
+    generate
     tx
   end
 
   def burn!(wallet:, amount:)
     tx = glueby_token.burn!(sender: wallet.glueby_wallet, amount:)
-    system('bundle exec rake kokuten:glueby:generate')
+    generate
     tx
   end
 
@@ -57,10 +57,10 @@ class Token < ApplicationRecord
   def create_token
     token, = Glueby::Contract::Token.issue!(issuer: utxo_provider_wallet, amount: 1,
                                             token_type: Tapyrus::Color::TokenTypes::REISSUABLE)
-    system('bundle exec rake kokuten:glueby:generate')
+    generate
 
     token.burn!(sender: utxo_provider_wallet, amount: 1)
-    system('bundle exec rake kokuten:glueby:generate')
+    generate
 
     token
   end
@@ -68,5 +68,20 @@ class Token < ApplicationRecord
   # Glueby::UtxoProvider.instance.wallet は Glueby::Internal::Wallet クラスなため使わない。
   def utxo_provider_wallet
     Glueby::Wallet.load('UTXO_PROVIDER_WALLET')
+  end
+
+  # XXX:
+  # ActiveRecord Transaction でロックしてるので system 使って外から Rake タスク実行すると怒られるので一時的に generate メソッドを追加
+  def generate
+    utxo_provider_address = Glueby::UtxoProvider.instance.address
+    aggregate_private_key = ENV['AUTHORITY_KEY']
+    Glueby::Internal::RPC.client.generatetoaddress(1, utxo_provider_address, aggregate_private_key)
+
+    latest_block_num = Glueby::Internal::RPC.client.getblockcount
+    synced_block = Glueby::AR::SystemInformation.synced_block_height
+    (synced_block.int_value + 1..latest_block_num).each do |height|
+      Glueby::BlockSyncer.new(height).run
+      synced_block.update(info_value: height.to_s)
+    end
   end
 end

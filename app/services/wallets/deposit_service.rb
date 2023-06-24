@@ -9,15 +9,31 @@ module Wallets
     end
 
     def call
-      source = AccountTransaction.create!(account: @account, amount: -@amount,
-                                          transaction_type: :transfer, transaction_time: Time.current)
-      @account.update!(balance: @account.balance - @amount)
+      ActiveRecord::Base.transaction do
+        @account.update!(balance: @account.balance - @amount)
+        source = AccountTransaction.create!(
+          account: @account,
+          amount: -@amount,
+          transaction_type: :transfer,
+          transaction_time: Time.current
+        )
 
-      token_transaction = Tokens::IssueTokenService.call(wallet: @wallet, amount: @amount)
-      target = WalletTransaction.create!(wallet: @wallet, amount: @amount, token_transaction:,
-                                         transaction_type: :deposit, transaction_time: Time.current)
+        token_transaction = Tokens::IssueTokenService.call(wallet: @wallet, amount: @amount)
+        target = WalletTransaction.create!(
+          wallet: @wallet,
+          amount: @amount,
+          token_transaction:,
+          transaction_type: :deposit,
+          transaction_time: Time.current
+        )
 
-      FundsTransaction.create!(source:, target:, transaction_type: :wallet_deposit, transaction_time: Time.current)
+        FundsTransaction.create!(
+          source:,
+          target:,
+          transaction_type: :wallet_deposit,
+          transaction_time: Time.current
+        )
+      end
     end
   end
 end
