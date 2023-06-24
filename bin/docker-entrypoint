@@ -2,12 +2,8 @@
 
 rm -f /monoiroha/tmp/pids/server.pid
 
-echo "===="
-echo ${*}
-
 # If running the rails server then create or migrate existing database
 if [ "${*}" == "bundle exec rails server -p 3000 -b 0.0.0.0" ]; then
-  ./bin/rails db:drop
   ./bin/rails db:create
   ./bin/rails ridgepole:apply
   ./bin/rails db:seed
