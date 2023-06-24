@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'sidekiq/web'
+require 'sidekiq/cron/web'
+
 Rails.application.routes.draw do
   root to: 'home#index'
 
@@ -20,4 +23,6 @@ Rails.application.routes.draw do
       resource :withdrawal, only: %i[new create]
     end
   end
+
+  mount Sidekiq::Web => '/sidekiq' if Rails.env.development?
 end
