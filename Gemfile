@@ -8,7 +8,6 @@ ruby '3.1.3'
 gem 'rails', '6.1.3.2'
 
 gem 'bootsnap', '>= 1.4.4', require: false
-gem 'dotenv-rails'
 gem 'glueby'
 gem 'jbuilder', '~> 2.7'
 gem 'psych', '~> 3.1'
