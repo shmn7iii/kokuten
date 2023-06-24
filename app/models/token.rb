@@ -55,8 +55,8 @@ class Token < ApplicationRecord
   # 発行者は UTXO Provider とする。1枚作って script_pubkey を作り即座に burn する。
   # FIXME: administrate で Token のページ見る度に走ってそう。
   def create_token
-    token, txs = Glueby::Contract::Token.issue!(issuer: utxo_provider_wallet, amount: 1,
-                                                token_type: Tapyrus::Color::TokenTypes::REISSUABLE)
+    token, = Glueby::Contract::Token.issue!(issuer: utxo_provider_wallet, amount: 1,
+                                            token_type: Tapyrus::Color::TokenTypes::REISSUABLE)
     system('bundle exec rake kokuten:glueby:generate')
 
     token.burn!(sender: utxo_provider_wallet, amount: 1)
