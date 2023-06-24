@@ -238,7 +238,6 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    sqlite3 (1.6.3-arm64-darwin)
     tapyrus (0.3.3)
       activesupport (>= 5.2.3)
       daemon-spawn
@@ -301,7 +300,6 @@ DEPENDENCIES
   sidekiq
   sidekiq-cron
   spring
-  sqlite3 (~> 1.4)
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 4.1.0)
