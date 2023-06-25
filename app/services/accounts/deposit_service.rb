@@ -2,6 +2,8 @@
 
 module Accounts
   class DepositService < BaseService
+    # @param [Account] account
+    # @param [Integer] amount
     def initialize(account:, amount:)
       @account = account
       @amount = amount

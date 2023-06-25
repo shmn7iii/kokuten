@@ -2,6 +2,9 @@
 
 module Accounts
   class TransferService < BaseService
+    # @param [Account] source_account
+    # @param [Account] target_account
+    # @param [Integer] amount
     def initialize(source_account:, target_account:, amount:)
       @source_account = source_account
       @target_account = target_account

@@ -2,6 +2,9 @@
 
 module Wallets
   class TransferService < BaseService
+    # @param [User] sender
+    # @param [User] receiver
+    # @param [Integer] amount
     def initialize(sender:, receiver:, amount:)
       @sender = sender
       @receiver = receiver

@@ -2,6 +2,8 @@
 
 module Wallets
   class WithdrawalService < BaseService
+    # @param [User] user
+    # @param [Integer] amount
     def initialize(user:, amount:)
       @user = user
       @amount = amount

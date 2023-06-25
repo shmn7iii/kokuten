@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'sidekiq/web'
-require 'sidekiq/cron/web'
-
 Rails.application.routes.draw do
   root to: 'home#index'
 
@@ -25,5 +22,9 @@ Rails.application.routes.draw do
     end
   end
 
-  mount Sidekiq::Web => '/sidekiq' if Rails.env.development?
+  if Rails.env.development?
+    require 'sidekiq/web'
+    require 'sidekiq/cron/web'
+    mount Sidekiq::Web => '/sidekiq'
+  end
 end

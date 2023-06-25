@@ -14,8 +14,6 @@ class Wallet < ApplicationRecord
     Token.instance.glueby_token.amount(wallet: glueby_wallet)
   end
 
-  def pay_to(wallet:); end
-
   def glueby_wallet
     @glueby_wallet ||= Glueby::Wallet.load(glueby_wallet_id)
   end

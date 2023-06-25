@@ -9,7 +9,7 @@
     <th>Transaction Type</th>
     <th>Transaction Time</th>
   </tr>
-  <% @account.account_transactions.order(transaction_time: :DESC).each do |at| %>
+  <% @account.account_transactions.each do |at| %>
     <tr>
       <td><%= at.id %></td>
       <td><%= number_to_currency(at.amount, locale: :jp) %></td>

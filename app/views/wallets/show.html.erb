@@ -9,7 +9,7 @@
     <th>Amount</th>
     <th>Status</th>
   </tr>
-  <% current_user.wallet_deposit_requests.order(created_at: :DESC).each do |request| %>
+  <% current_user.wallet_deposit_requests.each do |request| %>
     <tr>
       <td><%= request.id %></td>
       <td><%= number_to_currency(request.amount, locale: :jp, unit: '₳ ') %></td>
@@ -25,7 +25,7 @@
     <th>Amount</th>
     <th>Status</th>
   </tr>
-  <% current_user.wallet_withdrawal_requests.order(created_at: :DESC).each do |request| %>
+  <% current_user.wallet_withdrawal_requests.each do |request| %>
     <tr>
       <td><%= request.id %></td>
       <td><%= number_to_currency(request.amount, locale: :jp, unit: '₳ ') %></td>
@@ -62,7 +62,7 @@
     <th>Transaction Type</th>
     <th>Transaction Time</th>
   </tr>
-  <% @wallet.wallet_transactions.order(transaction_time: :DESC).each do |at| %>
+  <% @wallet.wallet_transactions.each do |at| %>
     <tr>
       <td><%= at.id %></td>
       <td><%= number_to_currency(at.amount, locale: :jp, unit: '₳ ') %></td>

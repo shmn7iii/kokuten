@@ -11,7 +11,7 @@ class FinalizeWalletWithdrawalRequestsJob < BaseFinalizeRequestsJob
       amount = request.amount
 
       ActiveRecord::Base.transaction do
-        # WalletTransaction の作成
+        # AccountTransaction の作成
         account.update!(balance: account.balance + amount)
         account_transaction = AccountTransaction.create!(
           account:,
