@@ -74,7 +74,7 @@ class Token < ApplicationRecord
   # ActiveRecord Transaction でロックしてるので system 使って外から Rake タスク実行すると怒られるので一時的に generate メソッドを追加
   def generate
     utxo_provider_address = Glueby::UtxoProvider.instance.address
-    aggregate_private_key = ENV['AUTHORITY_KEY']
+    aggregate_private_key = ENV['TAPYRUS_AUTHORITY_KEY']
     Glueby::Internal::RPC.client.generatetoaddress(1, utxo_provider_address, aggregate_private_key)
 
     latest_block_num = Glueby::Internal::RPC.client.getblockcount

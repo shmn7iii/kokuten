@@ -6,7 +6,7 @@ namespace :kokuten do
     task init: :environment do
       puts "\n== Generate block =="
       utxo_provider_address = Glueby::UtxoProvider.instance.address
-      aggregate_private_key = ENV['AUTHORITY_KEY']
+      aggregate_private_key = ENV['TAPYRUS_AUTHORITY_KEY']
       txs = Glueby::Internal::RPC.client.generatetoaddress(1, utxo_provider_address, aggregate_private_key)
       puts txs
 
@@ -19,7 +19,7 @@ namespace :kokuten do
 
       puts "\n== Generate block =="
       utxo_provider_address = Glueby::UtxoProvider.instance.address
-      aggregate_private_key = ENV['AUTHORITY_KEY']
+      aggregate_private_key = ENV['TAPYRUS_AUTHORITY_KEY']
       txs = Glueby::Internal::RPC.client.generatetoaddress(1, utxo_provider_address, aggregate_private_key)
       puts txs
 
@@ -37,7 +37,7 @@ namespace :kokuten do
 
       puts "\n== Generate block =="
       utxo_provider_address = Glueby::UtxoProvider.instance.address
-      aggregate_private_key = ENV['AUTHORITY_KEY']
+      aggregate_private_key = ENV['TAPYRUS_AUTHORITY_KEY']
       txs = Glueby::Internal::RPC.client.generatetoaddress(1, utxo_provider_address, aggregate_private_key)
       puts txs
 
@@ -52,7 +52,7 @@ namespace :kokuten do
     task generate: :environment do
       puts "\n== Generate block =="
       utxo_provider_address = Glueby::UtxoProvider.instance.address
-      aggregate_private_key = ENV['AUTHORITY_KEY']
+      aggregate_private_key = ENV['TAPYRUS_AUTHORITY_KEY']
       txs = Glueby::Internal::RPC.client.generatetoaddress(1, utxo_provider_address, aggregate_private_key)
       puts txs
 
