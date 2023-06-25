@@ -12,7 +12,7 @@ class IssueTokenFromWalletDepositRequestsJob < ApplicationJob
       token = request.token
       amount = request.amount
 
-      _, tx = token.glueby_token.reissue!(issuer: utxo_provider_wallet, amount:)
+      _, tx = token.glueby_token.reissue!(issuer: Wallet.utxo_provider_wallet.glueby_wallet, amount:)
 
       ActiveRecord::Base.transaction do
         # TokenTransaction の作成
@@ -38,9 +38,5 @@ class IssueTokenFromWalletDepositRequestsJob < ApplicationJob
 
   def target_requests
     WalletDepositRequest.where(status: :not_yet_issued)
-  end
-
-  def utxo_provider_wallet
-    Glueby::Wallet.load('UTXO_PROVIDER_WALLET')
   end
 end

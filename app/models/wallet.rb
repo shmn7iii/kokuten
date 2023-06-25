@@ -3,11 +3,15 @@
 class Wallet < ApplicationRecord
   validates :glueby_wallet_id, presence: true
 
-  belongs_to :user
+  belongs_to :user, optional: true
   has_many :wallet_transactions
 
   after_initialize do
     self.glueby_wallet_id ||= Glueby::Wallet.create.id
+  end
+
+  def self.utxo_provider_wallet
+    find_by(glueby_wallet_id: 'UTXO_PROVIDER_WALLET')
   end
 
   def balance

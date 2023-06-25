@@ -11,7 +11,7 @@ class TransferTokenFromWalletDepositRequestsJob < ApplicationJob
       amount = request.amount
 
       _, tx = token.glueby_token.transfer!(
-        sender: utxo_provider_wallet,
+        sender: Wallet.utxo_provider_wallet.glueby_wallet,
         receiver_address: wallet.glueby_wallet.internal_wallet.receive_address,
         amount:
       )
@@ -28,9 +28,5 @@ class TransferTokenFromWalletDepositRequestsJob < ApplicationJob
 
   def target_requests
     WalletDepositRequest.where(status: :not_yet_transferred)
-  end
-
-  def utxo_provider_wallet
-    Glueby::Wallet.load('UTXO_PROVIDER_WALLET')
   end
 end

@@ -25,7 +25,8 @@ create_table 'accounts', comment: '口座'  do |t|
 end
 
 create_table 'wallets', comment: 'ウォレット'  do |t|
-  t.references :user, null: false, foreign_key: { to_table: :users }
+  # UTXO Provider 等のユーザーを持たないウォレットを許容するため null: true
+  t.references :user, null: true, foreign_key: { to_table: :users }
   t.string :glueby_wallet_id, null: false, comment: 'ウォレットID'
 
   t.timestamps null: false
