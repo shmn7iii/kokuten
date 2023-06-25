@@ -7,8 +7,7 @@ module Wallets
     def new; end
 
     def create
-      Wallets::DepositService.call(account: current_user.account, wallet: current_user.wallet,
-                                   amount: deposit_params[:amount].to_i)
+      Wallets::DepositService.call(user: current_user, amount: deposit_params[:amount].to_i)
 
       redirect_to current_user.wallet
     end

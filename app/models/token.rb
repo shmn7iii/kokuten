@@ -20,29 +20,6 @@ class Token < ApplicationRecord
     tx_outset_info['total_amount'][glueby_token.color_id.to_payload.bth]
   end
 
-  def amount(wallet:)
-    glueby_token.amount(wallet:)
-  end
-
-  # すげえ時間かかるので非同期化なりどうにかしたい気持ち\
-  def issue!(wallet:, amount:)
-    _, tx = glueby_token.reissue!(issuer: utxo_provider_wallet, amount:)
-    generate
-    glueby_token.transfer!(sender: utxo_provider_wallet,
-                           receiver_address: wallet.glueby_wallet.internal_wallet.receive_address,
-                           amount:)
-    generate
-    tx
-  end
-
-  def burn!(wallet:, amount:)
-    tx = glueby_token.burn!(sender: wallet.glueby_wallet, amount:)
-    generate
-    tx
-  end
-
-  private
-
   # color_id の payload を保存したかったが、Glueby::Contract::Token.parse_from_payload だと ActiveRecord へ保存してしまう。
   # Tapyrus::Color::ColorIdentifier.parse_from_payload してから Token を new すると token_type がずれる。
   # ので script_pubkey を保存することにした。
@@ -51,6 +28,8 @@ class Token < ApplicationRecord
     color_identifier = Tapyrus::Color::ColorIdentifier.reissuable(script_pubkey)
     Glueby::Contract::Token.new(color_id: color_identifier)
   end
+
+  private
 
   # 発行者は UTXO Provider とする。1枚作って script_pubkey を作り即座に burn する。
   # FIXME: administrate で Token のページ見る度に走ってそう。

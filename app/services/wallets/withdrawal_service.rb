@@ -2,38 +2,23 @@
 
 module Wallets
   class WithdrawalService < BaseService
-    def initialize(account:, wallet:, amount:)
-      @account = account
-      @wallet = wallet
+    def initialize(user:, amount:)
+      @user = user
       @amount = amount
+
+      @token = Token.instance
     end
 
     def call
-      ActiveRecord::Base.transaction do
-        token_transaction = Tokens::BurnTokenService.call(wallet: @wallet, amount: @amount)
-        source = WalletTransaction.create!(
-          wallet: @wallet,
-          amount: -@amount,
-          token_transaction:,
-          transaction_type: :withdrawal,
-          transaction_time: Time.current
-        )
+      # TODO: 残高不足の回避
+      # return しなきゃいけない && 非同期なのであらかじめ残高確保したい
 
-        @account.update!(balance: @account.balance + @amount)
-        target = AccountTransaction.create!(
-          account: @account,
-          amount: @amount,
-          transaction_type: :transfer,
-          transaction_time: Time.current
-        )
-
-        FundsTransaction.create!(
-          source:,
-          target:,
-          transaction_type: :wallet_deposit,
-          transaction_time: Time.current
-        )
-      end
+      WalletWithdrawalRequest.create!(
+        token: @token,
+        user: @user,
+        amount: @amount,
+        status: :not_yet_burned
+      )
     end
   end
 end

@@ -2,6 +2,39 @@
 
 <h3>Balance: <%= number_to_currency(@wallet.balance, locale: :jp, unit: '₳ ') %> </h3>
 
+<h3>WalletDepositRequests</h3>
+<table border="1">
+  <tr>
+    <th>Request ID</th>
+    <th>Amount</th>
+    <th>Status</th>
+  </tr>
+  <% current_user.wallet_deposit_requests.order(created_at: :DESC).each do |request| %>
+    <tr>
+      <td><%= request.id %></td>
+      <td><%= number_to_currency(request.amount, locale: :jp, unit: '₳ ') %></td>
+      <td><%= request.status %></td>
+    </tr>
+  <% end %>
+</table>
+
+<h3>WalletWithdrawalRequests</h3>
+<table border="1">
+  <tr>
+    <th>Request ID</th>
+    <th>Amount</th>
+    <th>Status</th>
+  </tr>
+  <% current_user.wallet_withdrawal_requests.order(created_at: :DESC).each do |request| %>
+    <tr>
+      <td><%= request.id %></td>
+      <td><%= number_to_currency(request.amount, locale: :jp, unit: '₳ ') %></td>
+      <td><%= request.status %></td>
+    </tr>
+  <% end %>
+</table>
+
+<h3>WalletTransactions</h3>
 <table border="1">
   <tr>
     <th>Transaction ID</th>

@@ -2,36 +2,34 @@
 
 module Wallets
   class DepositService < BaseService
-    def initialize(account:, wallet:, amount:)
-      @account = account
-      @wallet = wallet
+    def initialize(user:, amount:)
+      @user = user
       @amount = amount
+
+      @token = Token.instance
     end
 
     def call
+      # TODO: 残高不足の回避
+      # return しなきゃいけない && 非同期なのであらかじめ残高確保したい
+
       ActiveRecord::Base.transaction do
-        @account.update!(balance: @account.balance - @amount)
-        source = AccountTransaction.create!(
-          account: @account,
+        account = @user.account
+
+        account.update!(balance: account.balance - @amount)
+        account_transaction = AccountTransaction.create!(
+          account:,
           amount: -@amount,
           transaction_type: :transfer,
           transaction_time: Time.current
         )
 
-        token_transaction = Tokens::IssueTokenService.call(wallet: @wallet, amount: @amount)
-        target = WalletTransaction.create!(
-          wallet: @wallet,
+        WalletDepositRequest.create!(
+          token: @token,
+          user: @user,
+          account_transaction:,
           amount: @amount,
-          token_transaction:,
-          transaction_type: :deposit,
-          transaction_time: Time.current
-        )
-
-        FundsTransaction.create!(
-          source:,
-          target:,
-          transaction_type: :wallet_deposit,
-          transaction_time: Time.current
+          status: :not_yet_issued
         )
       end
     end

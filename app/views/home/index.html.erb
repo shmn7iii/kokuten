@@ -1,6 +1,24 @@
 <h1> hello, world!</h1>
 <h2>Total amount of token: <%= Token.instance.total_amount %></h2>
 
+<h2>FundsTransaction</h2>
+<table border="1">
+  <tr>
+    <th>ID</th>
+    <th>Source Type</th>
+    <th>Target Type</th>
+    <th>Transaction Time</th>
+  </tr>
+  <% FundsTransaction.all.order(transaction_time: :DESC).each do |ft| %>
+    <tr>
+      <td><%= ft.id %></td>
+      <td><%= ft.source_type %></td>
+      <td><%= ft.target_type %></td>
+      <td><%= ft.transaction_time %></td>
+    </tr>
+  <% end %>
+</table>
+
 <% if current_user %>
   <h3>Current: <%= current_user.username %></h3>
   <% if current_user.account.present? %>

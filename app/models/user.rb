@@ -9,4 +9,7 @@ class User < ApplicationRecord
 
   has_one :account
   has_one :wallet
+
+  has_many :wallet_deposit_requests
+  has_many :wallet_withdrawal_requests
 end

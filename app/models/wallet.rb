@@ -11,7 +11,7 @@ class Wallet < ApplicationRecord
   end
 
   def balance
-    Token.instance.amount(wallet: glueby_wallet)
+    Token.instance.glueby_token.amount(wallet: glueby_wallet)
   end
 
   def pay_to(wallet:); end

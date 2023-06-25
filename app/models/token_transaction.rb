@@ -7,7 +7,6 @@ class TokenTransaction < ApplicationRecord
   validates :transaction_time, presence: true
 
   belongs_to :token
-  has_one :wallet_transaction
 
   enum transaction_type: {
     issue: 0, # 発行

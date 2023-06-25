@@ -4,7 +4,7 @@ module Glueby
   class BlockGenerateJob < ApplicationJob
     queue_as :default
 
-    def perform(*_args)
+    def perform
       # Generate block to UTXO Provider's address
       utxo_provider_address = Glueby::UtxoProvider.instance.address
       aggregate_private_key = ENV['TAPYRUS_AUTHORITY_KEY']
@@ -18,6 +18,10 @@ module Glueby
         Glueby::BlockSyncer.new(height).run
         synced_block.update(info_value: height.to_s)
       end
+
+      # finalize requests
+      FinalizeWalletDepositRequestsJob.perform_now
+      FinalizeWalletWithdrawalRequestsJob.perform_now
     end
   end
 end

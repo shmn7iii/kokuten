@@ -7,8 +7,7 @@ module Wallets
     def new; end
 
     def create
-      Wallets::WithdrawalService.call(account: current_user.account, wallet: current_user.wallet,
-                                      amount: withdrawal_params[:amount].to_i)
+      Wallets::WithdrawalService.call(user: current_user, amount: withdrawal_params[:amount].to_i)
 
       redirect_to current_user.wallet
     end
