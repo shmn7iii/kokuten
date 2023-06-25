@@ -29,7 +29,9 @@ group :development, :test do
 end
 
 group :development do
+  gem 'dotenv-rails'
   gem 'listen', '~> 3.3'
+  gem 'rails-erd'
   gem 'rubocop'
   gem 'rubocop-rails'
   gem 'spring'
