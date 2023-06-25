@@ -34,6 +34,26 @@
   <% end %>
 </table>
 
+<h3>WalletTransferRequests</h3>
+<table border="1">
+  <tr>
+    <th>Request ID</th>
+    <th>Amount</th>
+    <th>Sender</th>
+    <th>Receiver</th>
+    <th>Status</th>
+  </tr>
+  <% current_user.wallet_transfer_requests.each do |request| %>
+    <tr>
+      <td><%= request.id %></td>
+      <td><%= number_to_currency(request.amount, locale: :jp, unit: '₳ ') %></td>
+      <td><%= request.sender.username %></td>
+      <td><%= request.receiver.username %></td>
+      <td><%= request.status %></td>
+    </tr>
+  <% end %>
+</table>
+
 <h3>WalletTransactions</h3>
 <table border="1">
   <tr>
@@ -56,3 +76,4 @@
 
 <%= link_to 'Deposit', new_wallet_deposit_path %>
 <%= link_to 'Withdrawal', new_wallet_withdrawal_path %>
+<%= link_to 'Transfer', new_wallet_transfer_path %>

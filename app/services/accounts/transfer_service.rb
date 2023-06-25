@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Accounts
-  class AccountTransferService < BaseService
+  class TransferService < BaseService
     def initialize(source_account:, target_account:, amount:)
       @source_account = source_account
       @target_account = target_account

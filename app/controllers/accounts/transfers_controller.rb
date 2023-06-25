@@ -8,8 +8,8 @@ module Accounts
 
     def create
       target_account = Account.find_by(account_number: account_transfer_params[:target_account_number])
-      Accounts::AccountTransferService.call(source_account: current_user.account, target_account:,
-                                            amount: account_transfer_params[:amount].to_i)
+      Accounts::TransferService.call(source_account: current_user.account, target_account:,
+                                     amount: account_transfer_params[:amount].to_i)
 
       redirect_to current_user.account
     end

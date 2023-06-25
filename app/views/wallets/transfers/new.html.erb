@@ -1,0 +1,5 @@
+<%= form_with scope: :wallet_transfer, url: wallet_transfer_path do |form| %>
+  <p><%= form.text_field :receiver_username, placeholder: "Receiver username", required: true %></p>
+  <p><%= form.number_field :amount, placeholder: "Amount", required: true %></p>
+  <%= form.submit "Transfer" %>
+<% end %>

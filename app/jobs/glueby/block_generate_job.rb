@@ -22,6 +22,7 @@ module Glueby
       # finalize requests
       FinalizeWalletDepositRequestsJob.perform_now
       FinalizeWalletWithdrawalRequestsJob.perform_now
+      FinalizeWalletTransferRequestsJob.perform_now
     end
   end
 end

@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     scope module: :wallets do
       resource :deposit, only: %i[new create]
       resource :withdrawal, only: %i[new create]
+      resource :transfer, only: %i[new create]
     end
   end
 

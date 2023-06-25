@@ -12,4 +12,13 @@ class User < ApplicationRecord
 
   has_many :wallet_deposit_requests
   has_many :wallet_withdrawal_requests
+  has_many :wallet_transfer_requests_as_sender, class_name: 'WalletTransferRequest', foreign_key: 'sender_id'
+  has_many :wallet_transfer_requests_as_receiver, class_name: 'WalletTransferRequest', foreign_key: 'receiver_id'
+
+  def wallet_transfer_requests
+    [
+      wallet_transfer_requests_as_sender,
+      wallet_transfer_requests_as_receiver
+    ].flatten!
+  end
 end
