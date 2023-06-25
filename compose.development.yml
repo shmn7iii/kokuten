@@ -4,6 +4,7 @@ x-app: &app
   build:
     context: .
   environment:
+    MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
     RAILS_MASTER_KEY: $RAILS_MASTER_KEY
     RAILS_ENV: development
     REDIS_URL: redis://redis:6379
@@ -12,6 +13,15 @@ x-app: &app
     TAPYRUS_RPC_PORT: 12381
     TAPYRUS_RPC_USER: rpcuser
     TAPYRUS_RPC_PASSWORD: rpcpassword
+  depends_on:
+    db:
+      condition: service_healthy
+    tapyrusd:
+      condition: service_started
+    redis:
+      condition: service_healthy
+  volumes:
+    - .:/rails
 
 services:
   web:
@@ -21,11 +31,6 @@ services:
     stdin_open: true
     ports:
       - "3000:3000"
-    depends_on:
-      tapyrusd:
-        condition: service_started
-      db:
-        condition: service_healthy
 
   db:
     image: mysql:8.0
@@ -55,13 +60,6 @@ services:
   sidekiq:
     <<: *app
     command: bin/bundle exec sidekiq -C config/sidekiq.yml
-    depends_on:
-      redis:
-        condition: service_healthy
-      web:
-        condition: service_started
-      db:
-        condition: service_healthy
 
   redis:
     image: redis:latest
