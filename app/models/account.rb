@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# 口座モデル
 class Account < ApplicationRecord
   validates :balance, presence: true
   validates :account_number, presence: true

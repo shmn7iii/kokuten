@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# ウォレット出金リクエスト
+# ステータスに応じJobで処理を進める
 class WalletWithdrawalRequest < ApplicationRecord
   validates :amount, presence: true
   validates :status, presence: true

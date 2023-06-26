@@ -5,16 +5,16 @@
 <table border="1">
   <tr>
     <th>ID</th>
-    <th>Source Type</th>
-    <th>Target Type</th>
+    <th>Source</th>
+    <th>Target</th>
     <th>Transaction Type</th>
     <th>Transaction Time</th>
   </tr>
   <% FundsTransaction.all.each do |ft| %>
     <tr>
       <td><%= ft.id %></td>
-      <td><%= ft.source_type %></td>
-      <td><%= ft.target_type %></td>
+      <td><%= "#{ft.source_type}##{ft.source_id}" %></td>
+      <td><%= "#{ft.target_type}##{ft.target_id}" %></td>
       <td><%= ft.transaction_type %></td>
       <td><%= ft.transaction_time %></td>
     </tr>

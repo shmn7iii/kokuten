@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# ウォレットモデル
 class Wallet < ApplicationRecord
   validates :glueby_wallet_id, presence: true
 

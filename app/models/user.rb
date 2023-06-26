@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# ユーザーモデル
 class User < ApplicationRecord
   validates :username, presence: true, length: { maximum: 255 }, uniqueness: true
   validates :first_name, presence: true, length: { maximum: 255 }

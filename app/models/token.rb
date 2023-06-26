@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# サービス内で流通するトークンを管理するモデル
 class Token < ApplicationRecord
   validates :script_pubkey_payload_hex, presence: true
 

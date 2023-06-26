@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# ウォレットの入出金を管理するモデル
 class WalletTransaction < ApplicationRecord
   validates :amount, presence: true
   validates :transaction_type, presence: true
@@ -14,4 +15,17 @@ class WalletTransaction < ApplicationRecord
     withdrawal: 1, # 出金
     transfer: 2 # 送金
   }
+
+  def description
+    case transaction_type
+    when 'deposit'
+      '入金'
+    when 'withdrawal'
+      '出金'
+    when 'transfer'
+      '送金'
+    else
+      raise NotImplementedError
+    end
+  end
 end
