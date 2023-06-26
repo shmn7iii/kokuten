@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-create_table 'users', comment: 'ユーザー'  do |t|
+create_table 'users', comment: 'ユーザー' do |t|
   t.string :username, null: false, comment: 'ユーザー名'
   t.string :first_name, null: false, comment: '姓'
   t.string :last_name, null: false, comment: '名'
@@ -12,7 +12,7 @@ create_table 'users', comment: 'ユーザー'  do |t|
   t.index :username, unique: true
 end
 
-create_table 'accounts', comment: '口座'  do |t|
+create_table 'accounts', comment: '口座' do |t|
   t.references :user, null: false, foreign_key: { to_table: :users }
   t.decimal :balance, precision: 18, scale: 2, null: false, comment: '残高', default: 0.0
   t.string :account_number, null: false, comment: '口座番号'
@@ -24,7 +24,16 @@ create_table 'accounts', comment: '口座'  do |t|
   t.index :account_number, unique: true
 end
 
-create_table 'wallets', comment: 'ウォレット'  do |t|
+create_table 'account_transactions', comment: '口座入出金履歴' do |t|
+  t.references :account, null: false, foreign_key: { to_table: :accounts }
+  t.decimal :amount, precision: 18, scale: 2, null: false, comment: '金額'
+  t.integer :transaction_type, null: false, comment: '0: 入金, 1: 出金, 2: 口座振替'
+  t.datetime :transaction_time, null: false, comment: '取引日時'
+
+  t.timestamps null: false
+end
+
+create_table 'wallets', comment: 'ウォレット' do |t|
   # UTXO Provider 等のユーザーを持たないウォレットを許容するため null: true
   t.references :user, null: true, foreign_key: { to_table: :users }
   t.string :glueby_wallet_id, null: false, comment: 'ウォレットID'
@@ -34,31 +43,7 @@ create_table 'wallets', comment: 'ウォレット'  do |t|
   t.index :glueby_wallet_id, unique: true
 end
 
-create_table 'tokens', comment: 'トークン'  do |t|
-  t.text :script_pubkey_payload_hex, null: false, comment: 'トークンのscript_pubkeyのpayload, bth して保存'
-
-  t.timestamps null: false
-end
-
-create_table 'funds_transactions', comment: '資金の流れを追うモデル'  do |t|
-  t.references :source, null: true, polymorphic: true
-  t.references :target, null: true, polymorphic: true
-  t.integer :transaction_type, null: false, comment: 'TODO:'
-  t.datetime :transaction_time, null: false, comment: '取引日時'
-
-  t.timestamps null: false
-end
-
-create_table 'account_transactions', comment: '口座入出金履歴'  do |t|
-  t.references :account, null: false, foreign_key: { to_table: :accounts }
-  t.decimal :amount, precision: 18, scale: 2, null: false, comment: '金額'
-  t.integer :transaction_type, null: false, comment: '0: 入金, 1: 出金, 2: 口座振替'
-  t.datetime :transaction_time, null: false, comment: '取引日時'
-
-  t.timestamps null: false
-end
-
-create_table 'wallet_transactions', comment: 'ウォレット入出金履歴'  do |t|
+create_table 'wallet_transactions', comment: 'ウォレット入出金履歴' do |t|
   t.references :wallet, null: false, foreign_key: { to_table: :wallets }
   t.decimal :amount, precision: 18, scale: 2, null: false, comment: '金額'
   t.integer :transaction_type, null: false, comment: '0: 入金, 1: 出金, 2: 送金'
@@ -67,7 +52,13 @@ create_table 'wallet_transactions', comment: 'ウォレット入出金履歴'  d
   t.timestamps null: false
 end
 
-create_table 'token_transactions', comment: 'トークン生成履歴'  do |t|
+create_table 'tokens', comment: 'トークン' do |t|
+  t.text :script_pubkey_payload_hex, null: false, comment: 'トークンのscript_pubkeyのpayload, bth して保存'
+
+  t.timestamps null: false
+end
+
+create_table 'token_transactions', comment: 'トークン生成履歴' do |t|
   t.references :token, null: false, foreign_key: { to_table: :tokens }
   t.decimal :amount, precision: 18, scale: 2, null: false, comment: '金額'
   t.text :tapyrus_transaction_payload_hex, null: false, comment: '発行/焼却トランザクションのpayload, bthして保存'
@@ -77,7 +68,16 @@ create_table 'token_transactions', comment: 'トークン生成履歴'  do |t|
   t.timestamps null: false
 end
 
-create_table 'wallet_deposit_requests', comment: 'ウォレット入金リクエスト'  do |t|
+create_table 'funds_transactions', comment: '資金の流れを追うモデル' do |t|
+  t.references :source, null: true, polymorphic: true
+  t.references :target, null: true, polymorphic: true
+  t.integer :transaction_type, null: false, comment: 'TODO:'
+  t.datetime :transaction_time, null: false, comment: '取引日時'
+
+  t.timestamps null: false
+end
+
+create_table 'wallet_deposit_requests', comment: 'ウォレット入金リクエスト' do |t|
   t.references :token, null: false, foreign_key: { to_table: :tokens }
   t.references :user, null: false, foreign_key: { to_table: :users }
   t.references :account_transaction, null: false, foreign_key: { to_table: :account_transactions }, comment: '入金履歴'
@@ -93,7 +93,7 @@ create_table 'wallet_deposit_requests', comment: 'ウォレット入金リクエ
   t.timestamps null: false
 end
 
-create_table 'wallet_withdrawal_requests', comment: 'ウォレット出金リクエスト'  do |t|
+create_table 'wallet_withdrawal_requests', comment: 'ウォレット出金リクエスト' do |t|
   t.references :token, null: false, foreign_key: { to_table: :tokens }
   t.references :user, null: false, foreign_key: { to_table: :users }
   t.references :account_transaction, null: true, foreign_key: { to_table: :account_transactions }, comment: '出金履歴'
@@ -108,7 +108,7 @@ create_table 'wallet_withdrawal_requests', comment: 'ウォレット出金リク
   t.timestamps null: false
 end
 
-create_table 'wallet_transfer_requests', comment: 'ウォレット送金リクエスト'  do |t|
+create_table 'wallet_transfer_requests', comment: 'ウォレット送金リクエスト' do |t|
   t.references :token, null: false, foreign_key: { to_table: :tokens }
   t.references :sender, null: false
   t.references :receiver, null: false
@@ -125,66 +125,66 @@ end
 add_foreign_key :wallet_transfer_requests, :users, column: :sender_id
 add_foreign_key :wallet_transfer_requests, :users, column: :receiver_id
 
-create_table "glueby_keys", force: :cascade do |t|
-  t.string "private_key"
-  t.string "public_key"
-  t.string "script_pubkey"
-  t.string "label"
-  t.integer "purpose"
-  t.integer "wallet_id"
-  t.datetime "created_at", precision: 6, null: false
-  t.datetime "updated_at", precision: 6, null: false
-  t.index ["label"], name: "index_glueby_keys_on_label"
-  t.index ["private_key"], name: "index_glueby_keys_on_private_key", unique: true
-  t.index ["script_pubkey"], name: "index_glueby_keys_on_script_pubkey", unique: true
-  t.index ["wallet_id"], name: "index_glueby_keys_on_wallet_id"
+create_table 'glueby_keys', force: :cascade do |t|
+  t.string 'private_key'
+  t.string 'public_key'
+  t.string 'script_pubkey'
+  t.string 'label'
+  t.integer 'purpose'
+  t.integer 'wallet_id'
+  t.datetime 'created_at', precision: 6, null: false
+  t.datetime 'updated_at', precision: 6, null: false
+  t.index ['label'], name: 'index_glueby_keys_on_label'
+  t.index ['private_key'], name: 'index_glueby_keys_on_private_key', unique: true
+  t.index ['script_pubkey'], name: 'index_glueby_keys_on_script_pubkey', unique: true
+  t.index ['wallet_id'], name: 'index_glueby_keys_on_wallet_id'
 end
 
-create_table "glueby_reissuable_tokens", force: :cascade do |t|
-  t.string "color_id", null: false
-  t.string "script_pubkey", null: false
-  t.datetime "created_at", precision: 6, null: false
-  t.datetime "updated_at", precision: 6, null: false
-  t.index ["color_id"], name: "index_glueby_reissuable_tokens_on_color_id", unique: true
+create_table 'glueby_reissuable_tokens', force: :cascade do |t|
+  t.string 'color_id', null: false
+  t.string 'script_pubkey', null: false
+  t.datetime 'created_at', precision: 6, null: false
+  t.datetime 'updated_at', precision: 6, null: false
+  t.index ['color_id'], name: 'index_glueby_reissuable_tokens_on_color_id', unique: true
 end
 
-create_table "glueby_system_informations", force: :cascade do |t|
-  t.string "info_key"
-  t.string "info_value"
-  t.datetime "created_at", precision: 6, null: false
-  t.datetime "updated_at", precision: 6, null: false
-  t.index ["info_key"], name: "index_glueby_system_informations_on_info_key", unique: true
+create_table 'glueby_system_informations', force: :cascade do |t|
+  t.string 'info_key'
+  t.string 'info_value'
+  t.datetime 'created_at', precision: 6, null: false
+  t.datetime 'updated_at', precision: 6, null: false
+  t.index ['info_key'], name: 'index_glueby_system_informations_on_info_key', unique: true
 end
 
-create_table "glueby_token_metadata", force: :cascade do |t|
-  t.text "metadata", null: false
-  t.string "color_id", null: false
-  t.string "p2c_address", null: false
-  t.string "payment_base", null: false
-  t.datetime "created_at", precision: 6, null: false
-  t.datetime "updated_at", precision: 6, null: false
-  t.index ["color_id"], name: "index_glueby_token_metadata_on_color_id", unique: true
+create_table 'glueby_token_metadata', force: :cascade do |t|
+  t.text 'metadata', null: false
+  t.string 'color_id', null: false
+  t.string 'p2c_address', null: false
+  t.string 'payment_base', null: false
+  t.datetime 'created_at', precision: 6, null: false
+  t.datetime 'updated_at', precision: 6, null: false
+  t.index ['color_id'], name: 'index_glueby_token_metadata_on_color_id', unique: true
 end
 
-create_table "glueby_utxos", force: :cascade do |t|
-  t.string "txid"
-  t.integer "index"
-  t.bigint "value"
-  t.string "script_pubkey"
-  t.string "label"
-  t.integer "status"
-  t.datetime "locked_at"
-  t.integer "key_id"
-  t.datetime "created_at", precision: 6, null: false
-  t.datetime "updated_at", precision: 6, null: false
-  t.index ["key_id"], name: "index_glueby_utxos_on_key_id"
-  t.index ["label"], name: "index_glueby_utxos_on_label"
-  t.index ["txid", "index"], name: "index_glueby_utxos_on_txid_and_index", unique: true
+create_table 'glueby_utxos', force: :cascade do |t|
+  t.string 'txid'
+  t.integer 'index'
+  t.bigint 'value'
+  t.string 'script_pubkey'
+  t.string 'label'
+  t.integer 'status'
+  t.datetime 'locked_at'
+  t.integer 'key_id'
+  t.datetime 'created_at', precision: 6, null: false
+  t.datetime 'updated_at', precision: 6, null: false
+  t.index ['key_id'], name: 'index_glueby_utxos_on_key_id'
+  t.index ['label'], name: 'index_glueby_utxos_on_label'
+  t.index %w[txid index], name: 'index_glueby_utxos_on_txid_and_index', unique: true
 end
 
-create_table "glueby_wallets", force: :cascade do |t|
-  t.string "wallet_id"
-  t.datetime "created_at", precision: 6, null: false
-  t.datetime "updated_at", precision: 6, null: false
-  t.index ["wallet_id"], name: "index_glueby_wallets_on_wallet_id", unique: true
+create_table 'glueby_wallets', force: :cascade do |t|
+  t.string 'wallet_id'
+  t.datetime 'created_at', precision: 6, null: false
+  t.datetime 'updated_at', precision: 6, null: false
+  t.index ['wallet_id'], name: 'index_glueby_wallets_on_wallet_id', unique: true
 end
