@@ -1,6 +1,6 @@
-generate_block_job:
+start_block_syncer_job:
   cron: "*/1 * * * *"
-  class: "Glueby::BlockGenerateJob"
+  class: "Glueby::StartBlockSyncerJob"
   description: "1分毎に ブロックを生成する"
 
 manage_utxo_pool_job:

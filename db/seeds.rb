@@ -12,18 +12,18 @@ utxo_provider_wallet = Wallet.create!(glueby_wallet_id:)
 
 # Create Token
 # UTXO Provider に資金を送る
-Glueby::BlockGenerateJob.perform_now
+Glueby::StartBlockSyncerJob.perform_now
 Glueby::ManageUtxoPoolJob.perform_now
-Glueby::BlockGenerateJob.perform_now
+Glueby::StartBlockSyncerJob.perform_now
 
 token, = Glueby::Contract::Token.issue!(
   issuer: utxo_provider_wallet.glueby_wallet,
   token_type: Tapyrus::Color::TokenTypes::REISSUABLE,
   amount: 1
 )
-Glueby::BlockGenerateJob.perform_now
+Glueby::StartBlockSyncerJob.perform_now
 
 token.burn!(sender: utxo_provider_wallet.glueby_wallet, amount: 1)
-Glueby::BlockGenerateJob.perform_now
+Glueby::StartBlockSyncerJob.perform_now
 
 Token.create!(script_pubkey_payload_hex: token.script_pubkey.to_payload.bth)

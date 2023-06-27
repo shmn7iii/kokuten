@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Tapyrus.chain_params = :dev
+Tapyrus.chain_params = :dev if ENV['TAPYRUS_CHAIN_PARAMS'] == 'dev'
 
 Glueby.configure do |config|
   config.rpc_config = {

@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
 module Glueby
-  class BlockGenerateJob < ApplicationJob
+  class StartBlockSyncerJob < ApplicationJob
     queue_as :default
 
     def perform
-      # Generate block to UTXO Provider's address
-      utxo_provider_address = Glueby::UtxoProvider.instance.address
-      aggregate_private_key = ENV['TAPYRUS_AUTHORITY_KEY']
-      Glueby::Internal::RPC.client.generatetoaddress(1, utxo_provider_address, aggregate_private_key)
+      # Generate block if :dev chain
+      GenerateBlockJob.perform_now if Tapyrus.chain_params.dev?
 
       # Start BlockSyncer
       # source: https://github.com/chaintope/glueby/blob/master/lib/tasks/glueby/block_syncer.rake#L17
@@ -19,7 +17,7 @@ module Glueby
         synced_block.update(info_value: height.to_s)
       end
 
-      # finalize requests
+      # Try to finalize requests
       FinalizeWalletDepositRequestsJob.perform_now
       FinalizeWalletWithdrawalRequestsJob.perform_now
       FinalizeWalletTransferRequestsJob.perform_now
