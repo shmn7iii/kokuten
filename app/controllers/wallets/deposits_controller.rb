@@ -9,7 +9,7 @@ module Wallets
     def create
       Wallets::DepositService.call(user: current_user, amount: deposit_params[:amount].to_i)
 
-      redirect_to current_user.wallet
+      redirect_to wallet_path
     end
 
     private

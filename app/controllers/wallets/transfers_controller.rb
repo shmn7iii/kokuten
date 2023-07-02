@@ -11,7 +11,7 @@ module Wallets
       Wallets::TransferService.call(sender: current_user, receiver:,
                                     amount: wallet_transfer_params[:amount].to_i)
 
-      redirect_to current_user.wallet
+      redirect_to wallet_path
     end
 
     private

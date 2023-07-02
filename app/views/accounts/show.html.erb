@@ -1,26 +1,75 @@
-<%= link_to '<- Home', root_path %>
+<div class="bg-white">
+  <div class="mx-auto max-w-screen-xl px-4 md:px-8">
+    <h2 class="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-8 lg:text-3xl xl:mb-12">
+      Account information
+    </h2>
+    <div class="relative flex flex-col rounded-lg border-2 border-indigo-500 p-4 pt-6">
+      <div class="mb-12">
 
-<h3>Balance: <%= number_to_currency(@account.balance, locale: :jp) %> </h3>
+        <div class="mb-2 text-center text-2l font-bold text-gray-800">
+          Balance
+        </div>
+        <div class="flex items-end justify-center gap-1">
+          <span class="self-start text-gray-600">
+            ¥
+          </span>
+          <span class="text-4xl font-bold text-gray-800">
+            <%= number_to_currency(@account.balance, locale: :jp) %>
+          </span>
+        </div>
 
-<table border="1">
-  <tr>
-    <th>Transaction ID</th>
-    <th>Amount</th>
-    <th>Transaction Type</th>
-    <th>Transaction Time</th>
-  </tr>
-  <% @account.account_transactions.each do |at| %>
-    <tr>
-      <td><%= at.id %></td>
-      <td><%= number_to_currency(at.amount, locale: :jp) %></td>
-      <td><%= at.transaction_type %></td>
-      <td><%= at.transaction_time %></td>
-    </tr>
-  <% end %>
-</table>
+        <div class="space-y-2 mt-10">
+          <div class="relative overflow-x-auto">
+            <div class="mb-2 text-center text-2l font-bold text-gray-800">
+              Account Transaction
+            </div>
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" class="px-6 py-3">
+                  Transaction ID
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Amount
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Transaction Type
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Transaction Time
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @account.account_transactions.each do |at| %>
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <td class="px-6 py-4">
+                    <%= at.id %>
+                  </td>
+                  <td class="px-6 py-4">
+                    <%= number_to_currency(at.amount, locale: :jp) %>
+                  </td>
+                  <td class="px-6 py-4">
+                    <%= at.transaction_type %>
+                  </td>
+                  <td class="px-6 py-4">
+                    <%= at.transaction_time %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
-<br>
+      <div class="mt-auto flex justify-end gap-8">
+        <%= link_to 'Deposit', new_account_deposit_path, class: "inline-block rounded-lg bg-indigo-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 md:text-base" %>
+        <%= link_to 'Withdrawal', new_account_withdrawal_path, class: "inline-block rounded-lg bg-gray-200 px-8 py-3 text-center text-sm font-semibold text-gray-500 outline-none ring-indigo-300 transition duration-100 hover:bg-gray-300 focus-visible:ring active:text-gray-700 md:text-base" %>
+      </div>
 
-<%= link_to 'Deposit', new_account_deposit_path %>
-<%= link_to 'Withdrawal', new_account_withdrawal_path %>
-<%= link_to 'Account Transfer', new_account_transfer_path %>
+      <%= link_to 'Account Transfer', new_account_transfer_path %>
+
+    </div>
+  </div>
+</div>

@@ -3,6 +3,6 @@ jp:
     currency:
       format:
         unit: "¥"
-        format: "%u %n"
-        negative_format: "%u -%n"
+        format: "%n"
+        negative_format: "-%n"
         precision: 0

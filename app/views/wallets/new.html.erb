@@ -1,4 +1,21 @@
-<p>Create wallet</p>
-<%= form_with scope: :wallet, url: wallet_path do |form| %>
-  <%= form.submit "Submit" %>
-<% end %>
+<div class="bg-white py-6 sm:py-8 lg:py-12">
+  <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+    <h2 class="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-8 lg:text-3xl">
+      Create Wallet
+    </h2>
+
+    <%= form_with scope: :wallet, url: wallet_path, class: "mx-auto max-w-lg rounded-lg border" do |form| %>
+      <div class="flex flex-col gap-4 p-4 md:p-8">
+        <%= form.submit "Agree & Submit", class: "block rounded-lg bg-gray-800 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-gray-300 transition duration-100 hover:bg-gray-700 focus-visible:ring active:bg-gray-600 md:text-base" %>
+
+        <p class="text-xs text-gray-400">
+          By signing up to our newsletter you agree to our
+          <a href="#" class="underline transition duration-100 hover:text-indigo-500 active:text-indigo-600">
+            Privacy Policy
+          </a>.
+        </p>
+      </div>
+    <% end %>
+
+  </div>
+</div>
