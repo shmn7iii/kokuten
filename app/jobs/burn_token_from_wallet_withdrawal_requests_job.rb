@@ -10,7 +10,7 @@ class BurnTokenFromWalletWithdrawalRequestsJob < ApplicationJob
       amount = request.amount
       wallet = request.user.wallet
 
-      tx = token.glueby_token.burn!(sender: wallet.glueby_wallet, amount:)
+      tx = token.burn!(wallet:, amount:)
 
       ActiveRecord::Base.transaction do
         # TokenTransaction の作成

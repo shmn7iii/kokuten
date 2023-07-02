@@ -11,9 +11,9 @@ class TransferTokenFromWalletTransferRequestsJob < ApplicationJob
       receiver = request.receiver
       amount = request.amount
 
-      _, tx = token.glueby_token.transfer!(
-        sender: sender.wallet.glueby_wallet,
-        receiver_address: receiver.wallet.glueby_wallet.internal_wallet.receive_address,
+      tx = token.transfer!(
+        sender: sender.wallet,
+        receiver: receiver.wallet,
         amount:
       )
 

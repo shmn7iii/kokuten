@@ -12,6 +12,51 @@ class Token < ApplicationRecord
     find_or_create_by!(id: TOKEN_ID)
   end
 
+  # トークンの再発行
+  # UTXO Provider へ渡るため、deposit の際は確定後に transfer が走る
+  #
+  # @param [Integer|BigInt] amount
+  # @return [Tapyrus::Tx] tx
+  def reissue!(amount:)
+    _, tx = glueby_token.reissue!(issuer: Wallet.utxo_provider_wallet.glueby_wallet, amount:)
+    tx
+  end
+
+  # トークンの移転
+  # UTXO を amount: 1 ずつに分割する
+  #
+  # @param [Wallet] sender
+  # @param [Wallet] receiver
+  # @param [Integer|BigInt] amount
+  # @return [Tapyrus::Tx] tx
+  def transfer!(sender:, receiver:, amount:)
+    receivers = []
+    receive_address = receiver.glueby_wallet.internal_wallet.receive_address
+    amount.to_i.times do
+      receivers << {
+        address: receive_address,
+        amount: 1
+      }
+    end
+
+    # UTXO を分割するために multi_transfer! を使う
+    _, tx = glueby_token.multi_transfer!(
+      sender: sender.glueby_wallet,
+      receivers:
+    )
+    tx
+  end
+
+  # トークンの焼却
+  #
+  # @param [Wallet] wallet
+  # @param [Integer|BigInt] amount
+  # @return [Tapyrus::Tx] tx
+  def burn!(wallet:, amount:)
+    glueby_token.burn!(sender: wallet.glueby_wallet, amount:)
+  end
+
+  # 発行済みトークンの総量
   def total_amount
     tx_outset_info = Glueby::Internal::RPC.client.gettxoutsetinfo
     tx_outset_info['total_amount'][glueby_token.color_id.to_payload.bth]

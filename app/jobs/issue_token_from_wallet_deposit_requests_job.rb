@@ -12,7 +12,7 @@ class IssueTokenFromWalletDepositRequestsJob < ApplicationJob
       token = request.token
       amount = request.amount
 
-      _, tx = token.glueby_token.reissue!(issuer: Wallet.utxo_provider_wallet.glueby_wallet, amount:)
+      tx = token.reissue!(amount:)
 
       ActiveRecord::Base.transaction do
         # TokenTransaction の作成
