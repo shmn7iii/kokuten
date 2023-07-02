@@ -18,6 +18,7 @@ gem 'ridgepole'
 gem 'sass-rails', '>= 6'
 gem 'sidekiq'
 gem 'sidekiq-cron'
+gem 'tailwindcss-rails'
 gem 'turbolinks', '~> 5'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'webpacker', '5.4.3'
