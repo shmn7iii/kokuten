@@ -1,4 +1,16 @@
-<%= form_with scope: :deposit, url: account_deposit_path do |form| %>
-  <p><%= form.number_field :amount, placeholder: "Amount", required: true %></p>
-  <%= form.submit "Deposit" %>
-<% end %>
+<div class="bg-white py-6 sm:py-8 lg:py-12">
+  <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+    <h2 class="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-8 lg:text-3xl">
+      Deposit
+    </h2>
+
+    <%= form_with scope: :deposit, url: account_deposit_path, class: "mx-auto max-w-lg rounded-lg border" do |form| %>
+      <div class="flex flex-col gap-4 p-4 md:p-8">
+        <%= form.number_field :amount, placeholder: "Amount", required: true, class: "w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %>
+
+        <%= form.submit "Deposit", class: "block rounded-lg bg-gray-800 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-gray-300 transition duration-100 hover:bg-gray-700 focus-visible:ring active:bg-gray-600 md:text-base" %>
+      </div>
+    <% end %>
+
+  </div>
+</div>

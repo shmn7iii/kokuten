@@ -11,7 +11,7 @@ module Accounts
       Accounts::TransferService.call(source_account: current_user.account, target_account:,
                                      amount: account_transfer_params[:amount].to_i)
 
-      redirect_to current_user.account
+      redirect_to account_path
     end
 
     private

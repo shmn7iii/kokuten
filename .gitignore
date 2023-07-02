@@ -40,3 +40,6 @@ yarn-debug.log*
 .yarn-integrity
 .env
 erd.pdf
+
+/app/assets/builds/*
+!/app/assets/builds/.keep

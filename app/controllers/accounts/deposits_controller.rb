@@ -9,7 +9,7 @@ module Accounts
     def create
       Accounts::DepositService.call(account: current_user.account, amount: deposit_params[:amount].to_i)
 
-      redirect_to current_user.account
+      redirect_to account_path
     end
 
     private

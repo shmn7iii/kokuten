@@ -14,7 +14,7 @@ class WalletsController < ApplicationController
   def create
     current_user.build_wallet.save!
 
-    redirect_to current_user.wallet
+    redirect_to wallet_path
   end
 
   private

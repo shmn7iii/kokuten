@@ -1,5 +1,17 @@
-<%= form_with scope: :account_transfer, url: account_transfer_path do |form| %>
-  <p><%= form.number_field :target_account_number, placeholder: "Target accounts number", required: true %></p>
-  <p><%= form.number_field :amount, placeholder: "Amount", required: true %></p>
-  <%= form.submit "Transfer" %>
-<% end %>
+<div class="bg-white py-6 sm:py-8 lg:py-12">
+  <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+    <h2 class="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-8 lg:text-3xl">
+      Transfer
+    </h2>
+
+    <%= form_with scope: :account_transfer, url: account_transfer_path, class: "mx-auto max-w-lg rounded-lg border" do |form| %>
+      <div class="flex flex-col gap-4 p-4 md:p-8">
+        <%= form.number_field :target_account_number, placeholder: "Target accounts number", required: true, class: "w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %>
+        <%= form.number_field :amount, placeholder: "Amount", required: true, class: "w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %>
+
+        <%= form.submit "Transfer", class: "block rounded-lg bg-gray-800 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-gray-300 transition duration-100 hover:bg-gray-700 focus-visible:ring active:bg-gray-600 md:text-base" %>
+      </div>
+    <% end %>
+
+  </div>
+</div>

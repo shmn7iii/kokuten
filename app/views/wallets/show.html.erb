@@ -1,79 +1,198 @@
-<%= link_to '<- Home', root_path %>
+<div class="bg-white">
+  <div class="mx-auto max-w-screen-xl px-4 md:px-8">
+    <h2 class="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-8 lg:text-3xl xl:mb-12">
+      Wallet information
+    </h2>
+    <div class="relative flex flex-col rounded-lg border-2 border-indigo-500 p-4 pt-6">
+      <div class="mb-12">
 
-<h3>Balance: <%= number_to_currency(@wallet.balance, locale: :jp, unit: '₳ ') %> </h3>
+        <div class="mb-2 text-center text-2l font-bold text-gray-800">
+          Balance
+        </div>
+        <div class="flex items-end justify-center gap-1">
+          <span class="self-start text-gray-600">
+            ₳
+          </span>
+          <span class="text-4xl font-bold text-gray-800">
+            <%= number_to_currency(@wallet.balance, locale: :jp) %>
+          </span>
+        </div>
 
-<h3>WalletDepositRequests</h3>
-<table border="1">
-  <tr>
-    <th>Request ID</th>
-    <th>Amount</th>
-    <th>Status</th>
-  </tr>
-  <% current_user.wallet_deposit_requests.each do |request| %>
-    <tr>
-      <td><%= request.id %></td>
-      <td><%= number_to_currency(request.amount, locale: :jp, unit: '₳ ') %></td>
-      <td><%= request.status %></td>
-    </tr>
-  <% end %>
-</table>
+        <div class="space-y-2 mt-10">
 
-<h3>WalletWithdrawalRequests</h3>
-<table border="1">
-  <tr>
-    <th>Request ID</th>
-    <th>Amount</th>
-    <th>Status</th>
-  </tr>
-  <% current_user.wallet_withdrawal_requests.each do |request| %>
-    <tr>
-      <td><%= request.id %></td>
-      <td><%= number_to_currency(request.amount, locale: :jp, unit: '₳ ') %></td>
-      <td><%= request.status %></td>
-    </tr>
-  <% end %>
-</table>
+          <div class="relative overflow-x-auto">
+            <div class="mb-2 text-center text-2l font-bold text-gray-800">
+              Wallet Transactions
+            </div>
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" class="px-6 py-3">
+                  Transaction ID
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Amount
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Transaction Type
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Transaction Time
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @wallet.wallet_transactions.each do |wt| %>
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <td class="px-6 py-4">
+                    <%= wt.id %>
+                  </td>
+                  <td class="px-6 py-4">
+                    <%= number_to_currency(wt.amount, locale: :jp, unit: '₳ ') %>
+                  </td>
+                  <td class="px-6 py-4">
+                    <%= wt.transaction_type %>
+                  </td>
+                  <td class="px-6 py-4">
+                    <%= wt.transaction_time %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
 
-<h3>WalletTransferRequests</h3>
-<table border="1">
-  <tr>
-    <th>Request ID</th>
-    <th>Amount</th>
-    <th>Sender</th>
-    <th>Receiver</th>
-    <th>Status</th>
-  </tr>
-  <% current_user.wallet_transfer_requests.each do |request| %>
-    <tr>
-      <td><%= request.id %></td>
-      <td><%= number_to_currency(request.amount, locale: :jp, unit: '₳ ') %></td>
-      <td><%= request.sender.username %></td>
-      <td><%= request.receiver.username %></td>
-      <td><%= request.status %></td>
-    </tr>
-  <% end %>
-</table>
+          <div class="relative overflow-x-auto">
+            <div class="mb-2 text-center text-2l font-bold text-gray-800">
+              WalletDepositRequests
+            </div>
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" class="px-6 py-3">
+                  Request ID
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Amount
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Status
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <% current_user.wallet_deposit_requests.each do |request| %>
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <td class="px-6 py-4">
+                    <%= request.id %>
+                  </td>
+                  <td class="px-6 py-4">
+                    <%= number_to_currency(request.amount, locale: :jp, unit: '₳ ') %>
+                  </td>
+                  <td class="px-6 py-4">
+                    <%= request.status %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
 
-<h3>WalletTransactions</h3>
-<table border="1">
-  <tr>
-    <th>Transaction ID</th>
-    <th>Amount</th>
-    <th>Transaction Type</th>
-    <th>Transaction Time</th>
-  </tr>
-  <% @wallet.wallet_transactions.each do |at| %>
-    <tr>
-      <td><%= at.id %></td>
-      <td><%= number_to_currency(at.amount, locale: :jp, unit: '₳ ') %></td>
-      <td><%= at.transaction_type %></td>
-      <td><%= at.transaction_time %></td>
-    </tr>
-  <% end %>
-</table>
+          <div class="relative overflow-x-auto">
+            <div class="mb-2 text-center text-2l font-bold text-gray-800">
+              WalletWithdrawalRequests
+            </div>
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" class="px-6 py-3">
+                  Request ID
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Amount
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Status
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <% current_user.wallet_withdrawal_requests.each do |request| %>
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <td class="px-6 py-4">
+                    <%= request.id %>
+                  </td>
+                  <td class="px-6 py-4">
+                    <%= number_to_currency(request.amount, locale: :jp, unit: '₳ ') %>
+                  </td>
+                  <td class="px-6 py-4">
+                    <%= request.status %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
 
-<br>
+          <div class="relative overflow-x-auto">
+            <div class="mb-2 text-center text-2l font-bold text-gray-800">
+              WalletTransferRequests
+            </div>
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" class="px-6 py-3">
+                  Request ID
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Amount
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Sender
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Receiver
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Status
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <% current_user.wallet_transfer_requests.each do |request| %>
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <td class="px-6 py-4">
+                    <%= request.id %>
+                  </td>
+                  <td class="px-6 py-4">
+                    <%= number_to_currency(request.amount, locale: :jp, unit: '₳ ') %>
+                  </td>
+                  <td class="px-6 py-4">
+                    <%= request.sender.username %>
+                  </td>
+                  <td class="px-6 py-4">
+                    <%= request.receiver.username %>
+                  </td>
+                  <td class="px-6 py-4">
+                    <%= request.status %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-<%= link_to 'Deposit', new_wallet_deposit_path %>
-<%= link_to 'Withdrawal', new_wallet_withdrawal_path %>
-<%= link_to 'Transfer', new_wallet_transfer_path %>
+      </div>
+
+      <div class="mt-auto flex justify-end gap-8">
+        <%= link_to 'Deposit', new_wallet_deposit_path, class: "inline-block rounded-lg bg-indigo-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 md:text-base" %>
+        <%= link_to 'Withdrawal', new_wallet_withdrawal_path, class: "inline-block rounded-lg bg-gray-200 px-8 py-3 text-center text-sm font-semibold text-gray-500 outline-none ring-indigo-300 transition duration-100 hover:bg-gray-300 focus-visible:ring active:text-gray-700 md:text-base" %>
+      </div>
+
+      <%= link_to 'Transfer', new_wallet_transfer_path %>
+
+    </div>
+  </div>
+</div>
+
