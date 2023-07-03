@@ -39,11 +39,16 @@ class Token < ApplicationRecord
       }
     end
 
+    # 高額の送金時、稀に min relay fee not met が出るので DEFAULT_FEE = 10_000 を amount に応じて増やしたい
+    fee_estimator = Glueby::Contract::FeeEstimator::Fixed.new(fixed_fee: 10_000 * (10**Math.log10(amount.to_i.abs).to_i))
+
     # UTXO を分割するために multi_transfer! を使う
     _, tx = glueby_token.multi_transfer!(
       sender: sender.glueby_wallet,
-      receivers:
+      receivers:,
+      fee_estimator:
     )
+
     tx
   end
 
