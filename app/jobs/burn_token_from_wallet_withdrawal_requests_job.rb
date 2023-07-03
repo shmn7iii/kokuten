@@ -17,7 +17,7 @@ class BurnTokenFromWalletWithdrawalRequestsJob < ApplicationJob
         token_transaction = TokenTransaction.create!(
           token:,
           amount: -amount,
-          tapyrus_transaction_payload_hex: tx.to_payload.bth,
+          tapyrus_transaction_txid: tx.txid,
           transaction_type: :burn,
           transaction_time: Time.current
         )
@@ -35,7 +35,7 @@ class BurnTokenFromWalletWithdrawalRequestsJob < ApplicationJob
           status: :burned_not_yet_finalized,
           token_transaction:,
           wallet_transaction:,
-          tapyrus_burn_transaction_payload_hex: tx.to_payload.bth
+          tapyrus_burn_transaction_txid: tx.txid
         )
       end
     end

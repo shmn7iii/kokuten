@@ -43,7 +43,7 @@ class FinalizeWalletWithdrawalRequestsJob < BaseFinalizeRequestsJob
     WalletWithdrawalRequest.not_yet_finalized
   end
 
-  def tx_payload(request:)
-    return request.tapyrus_burn_transaction_payload_hex if request.status == 'burned_not_yet_finalized'
+  def target_transaction_txid(request:)
+    return request.tapyrus_burn_transaction_txid if request.status == 'burned_not_yet_finalized'
   end
 end

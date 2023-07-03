@@ -19,7 +19,7 @@ class IssueTokenFromWalletDepositRequestsJob < ApplicationJob
         token_transaction = TokenTransaction.create!(
           token:,
           amount:,
-          tapyrus_transaction_payload_hex: tx.to_payload.bth,
+          tapyrus_transaction_txid: tx.txid,
           transaction_type: :issue,
           transaction_time: Time.current
         )
@@ -28,7 +28,7 @@ class IssueTokenFromWalletDepositRequestsJob < ApplicationJob
         request.update!(
           status: :issued_not_yet_finalized,
           token_transaction:,
-          tapyrus_issue_transaction_payload_hex: tx.to_payload.bth
+          tapyrus_issue_transaction_txid: tx.txid
         )
       end
     end

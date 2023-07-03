@@ -49,7 +49,7 @@ class FinalizeWalletTransferRequestsJob < BaseFinalizeRequestsJob
     WalletTransferRequest.not_yet_finalized
   end
 
-  def tx_payload(request:)
-    return request.tapyrus_transfer_transaction_payload_hex if request.status == 'transferred_not_yet_finalized'
+  def target_transaction_txid(request:)
+    return request.tapyrus_transfer_transaction_txid if request.status == 'transferred_not_yet_finalized'
   end
 end

@@ -7,7 +7,9 @@ module Wallets
     def new; end
 
     def create
-      receiver = User.find_by(username: wallet_transfer_params[:receiver_username])
+      receiver = User.find_by!(username: wallet_transfer_params[:receiver_username])
+      raise StandardError unless receiver.wallet.present?
+
       Wallets::TransferService.call(sender: current_user, receiver:,
                                     amount: wallet_transfer_params[:amount].to_i)
 

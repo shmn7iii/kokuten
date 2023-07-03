@@ -3,7 +3,7 @@
 # トークンの増減を管理するモデル
 class TokenTransaction < ApplicationRecord
   validates :amount, presence: true
-  validates :tapyrus_transaction_payload_hex, presence: true
+  validates :tapyrus_transaction_txid, presence: true
   validates :transaction_type, presence: true
   validates :transaction_time, presence: true
 

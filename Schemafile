@@ -61,7 +61,7 @@ end
 create_table 'token_transactions', comment: 'トークン生成履歴' do |t|
   t.references :token, null: false, foreign_key: { to_table: :tokens }
   t.decimal :amount, precision: 18, scale: 2, null: false, comment: '金額'
-  t.text :tapyrus_transaction_payload_hex, null: false, comment: '発行/焼却トランザクションのpayload, bthして保存'
+  t.text :tapyrus_transaction_txid, null: false, comment: '発行/焼却トランザクションのTXID'
   t.integer :transaction_type, null: false, comment: '0: 発行, 1: 焼却'
   t.datetime :transaction_time, null: false, comment: '取引日時'
 
@@ -85,8 +85,8 @@ create_table 'wallet_deposit_requests', comment: 'ウォレット入金リクエ
   t.references :wallet_transaction, null: true, foreign_key: { to_table: :wallet_transactions }, comment: '移転完了で埋まる'
   t.decimal :amount, precision: 18, scale: 2, null: false, comment: '金額'
   t.integer :status, null: false, comment: '0: 発行待ち, 1: 発行済み確定待ち, 2: 転送待ち, 3: 転送済み確定待ち, 9: 完了'
-  t.text :tapyrus_issue_transaction_payload_hex, null: true, comment: 'トークン発行トランザクション'
-  t.text :tapyrus_transfer_transaction_payload_hex, null: true, comment: 'トークン移転トランザクション'
+  t.text :tapyrus_issue_transaction_txid, null: true, comment: 'トークン発行トランザクション'
+  t.text :tapyrus_transfer_transaction_txid, null: true, comment: 'トークン移転トランザクション'
 
   t.datetime :completion_time, null: true, comment: '完了日時'
 
@@ -101,7 +101,7 @@ create_table 'wallet_withdrawal_requests', comment: 'ウォレット出金リク
   t.references :wallet_transaction, null: true, foreign_key: { to_table: :wallet_transactions }, comment: '焼却完了で埋まる'
   t.decimal :amount, precision: 18, scale: 2, null: false, comment: '金額'
   t.integer :status, null: false, comment: '0: 焼却待ち, 1: 焼却済み確定待ち, 9: 完了'
-  t.text :tapyrus_burn_transaction_payload_hex, null: true, comment: 'トークン焼却トランザクション'
+  t.text :tapyrus_burn_transaction_txid, null: true, comment: 'トークン焼却トランザクション'
 
   t.datetime :completion_time, null: true, comment: '完了日時'
 
@@ -115,7 +115,7 @@ create_table 'wallet_transfer_requests', comment: 'ウォレット送金リク�
   t.references :funds_transaction, null: true, foreign_key: { to_table: :funds_transactions }, comment: '送金履歴'
   t.decimal :amount, precision: 18, scale: 2, null: false, comment: '金額'
   t.integer :status, null: false, comment: '0: 移転待ち, 1: 移転済み確定待ち, 9: 完了'
-  t.text :tapyrus_transfer_transaction_payload_hex, null: true, comment: 'トークン移転トランザクション'
+  t.text :tapyrus_transfer_transaction_txid, null: true, comment: 'トークン移転トランザクション'
 
   t.datetime :completion_time, null: true, comment: '完了日時'
 

@@ -20,7 +20,7 @@ class TransferTokenFromWalletTransferRequestsJob < ApplicationJob
       # 当該リクエストのステータスを「移転済み確定待ち」に変更
       request.update!(
         status: :transferred_not_yet_finalized,
-        tapyrus_transfer_transaction_payload_hex: tx.to_payload.bth
+        tapyrus_transfer_transaction_txid: tx.txid
       )
     end
   end

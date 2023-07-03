@@ -5,10 +5,7 @@ class BaseFinalizeRequestsJob < ApplicationJob
 
   def perform
     target_requests.each do |request|
-      puts '==='
-      puts tx_payload(request:)
-      tx = Tapyrus::Tx.parse_from_payload(tx_payload(request:).htb)
-      next if Glueby::Internal::RPC.client.getrawtransaction(tx.txid, true)['blockhash'].nil?
+      next if Glueby::Internal::RPC.client.getrawtransaction(target_transaction_txid(request:), true)['blockhash'].nil?
 
       execute(request:)
     end
@@ -24,7 +21,7 @@ class BaseFinalizeRequestsJob < ApplicationJob
     raise NotImplementedError
   end
 
-  def tx_payload(request:)
+  def target_transaction_txid(request:)
     raise NotImplementedError
   end
 end
