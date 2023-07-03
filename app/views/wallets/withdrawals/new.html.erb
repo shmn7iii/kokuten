@@ -6,7 +6,7 @@
 
     <%= form_with scope: :withdrawal, url: wallet_withdrawal_path, class: "mx-auto max-w-lg rounded-lg border" do |form| %>
       <div class="flex flex-col gap-4 p-4 md:p-8">
-        <%= form.number_field :amount, placeholder: "Amount", required: true, class: "w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %>
+        <%= form.number_field :amount, placeholder: "Amount", required: true, class: "w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-orange-300 transition duration-100 focus:ring" %>
 
         <%= form.submit "Withdrawal", class: "block rounded-lg bg-gray-800 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-gray-300 transition duration-100 hover:bg-gray-700 focus-visible:ring active:bg-gray-600 md:text-base cursor-pointer" %>
       </div>
