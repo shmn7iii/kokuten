@@ -6,10 +6,23 @@ create_table 'users', comment: 'ユーザー' do |t|
   t.string :last_name, null: false, comment: '名'
   t.integer :phone_number, null: false, comment: '電話番号'
   t.string :email, null: false, comment: 'メールアドレス'
+  t.string :webauthn_id
 
   t.timestamps null: false
 
   t.index :username, unique: true
+end
+
+create_table 'credentials', comment: 'Webauthn credentials' do |t|
+  t.references :user, null: false, foreign_key: { to_table: :users }
+  t.string :external_id
+  t.string :public_key
+  t.string :nickname
+  t.bigint :sign_count, default: 0, null: false
+
+  t.timestamps null: false
+
+  t.index :external_id, unique: true
 end
 
 create_table 'accounts', comment: '口座' do |t|
