@@ -18,9 +18,7 @@ class SessionsController < ApplicationController
         format.json { render json: get_options }
       end
     else
-      respond_to do |format|
-        format.json { render json: { errors: ["Username doesn't exist"] }, status: :unprocessable_entity }
-      end
+      redirect_to login_path, alert: 'Username not found'
     end
   end
 

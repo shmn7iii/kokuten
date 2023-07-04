@@ -27,9 +27,7 @@ class UsersController < ApplicationController
         format.json { render json: create_options }
       end
     else
-      respond_to do |format|
-        format.json { render json: { errors: user.errors.full_messages }, status: :unprocessable_entity }
-      end
+      redirect_to signup_path, alert: user.errors.full_messages.join('<br>')
     end
   end
 
