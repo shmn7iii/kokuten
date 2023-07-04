@@ -33,8 +33,8 @@
         </div>
       <% else %>
         <div class="-ml-8 hidden flex-col gap-2.5 sm:flex-row sm:justify-center lg:flex lg:justify-start">
-          <%= link_to "Log in", new_session_path, class: "inline-block rounded-lg px-4 py-3 text-center text-sm font-semibold text-gray-500 outline-none ring-orange-300 transition duration-100 hover:text-orange-500 focus-visible:ring active:text-orange-600 md:text-base" %>
-          <%= link_to "Sign up", new_user_path, class: "inline-block rounded-lg bg-orange-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-orange-300 transition duration-100 hover:bg-orange-600 focus-visible:ring active:bg-orange-700 md:text-base" %>
+          <%= link_to "Log in", login_path, class: "inline-block rounded-lg px-4 py-3 text-center text-sm font-semibold text-gray-500 outline-none ring-orange-300 transition duration-100 hover:text-orange-500 focus-visible:ring active:text-orange-600 md:text-base" %>
+          <%= link_to "Sign up", signup_path, class: "inline-block rounded-lg bg-orange-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-orange-300 transition duration-100 hover:bg-orange-600 focus-visible:ring active:bg-orange-700 md:text-base" %>
         </div>
       <% end %>
 

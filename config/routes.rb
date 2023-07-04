@@ -3,8 +3,18 @@
 Rails.application.routes.draw do
   root to: 'home#index'
 
-  resource :session, only: %i[new create destroy]
-  resource :user, only: %i[show new create]
+
+  get 'signup', to: 'users#new'
+  post 'signup', to: 'users#create'
+  post 'signup/callback', to: 'users#callback'
+
+  get 'login', to: 'sessions#new'
+  post 'login', to: 'sessions#create'
+  post 'login/callback', to: 'sessions#callback'
+
+  delete 'logout', to: 'sessions#destroy'
+
+  resource :user, only: %i[show]
 
   resource :account, only: %i[show] do
     scope module: :accounts do

@@ -14,6 +14,7 @@ gem 'mysql2'
 gem 'psych', '~> 3.1'
 gem 'puma', '~> 5.0'
 gem 'rails-i18n'
+gem 'rails-ujs'
 gem 'ridgepole'
 gem 'sass-rails', '>= 6'
 gem 'sidekiq'
@@ -21,6 +22,7 @@ gem 'sidekiq-cron'
 gem 'tailwindcss-rails'
 gem 'turbolinks', '~> 5'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+gem 'webauthn'
 gem 'webpacker', '5.4.3'
 
 group :development, :test do
