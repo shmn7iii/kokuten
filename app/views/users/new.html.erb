@@ -4,7 +4,7 @@
       Sing up
     </h2>
 
-    <%= form_with scope: :user, url: signup_path, class: "mx-auto max-w-lg rounded-lg border" do |form| %>
+    <%= form_with scope: :user, url: signup_path, local: false, id: "signup", data: { controller: "signup", action: "ajax:success->signup#create" }, class: "mx-auto max-w-lg rounded-lg border" do |form| %>
       <div class="flex flex-col gap-4 p-4 md:p-8">
         <div class="flex gap-4">
           <%= form.text_field :first_name, placeholder: "First name", required: true, class: "w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-orange-300 transition duration-100 focus:ring" %>

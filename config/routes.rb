@@ -6,9 +6,11 @@ Rails.application.routes.draw do
 
   get 'signup', to: 'users#new'
   post 'signup', to: 'users#create'
+  post 'signup/callback', to: 'users#callback'
 
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
+  post 'login/callback', to: 'sessions#callback'
 
   delete 'logout', to: 'sessions#destroy'
 
