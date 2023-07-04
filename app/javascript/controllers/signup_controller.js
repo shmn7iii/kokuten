@@ -1,5 +1,5 @@
 import {Controller} from "stimulus"
-import * as Credential from "credential";
+import * as Credential from "../credential";
 
 export default class extends Controller {
     create(event) {

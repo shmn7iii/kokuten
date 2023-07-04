@@ -16,7 +16,7 @@ x-app: &app
     TAPYRUS_RPC_USER: rpcuser
     TAPYRUS_RPC_PASSWORD: rpcpassword
     TZ: Asia/Tokyo
-    WEBAUTHN_ORIGIN: http://localhost:3000
+    WEBAUTHN_ORIGIN: $WEBAUTHN_ORIGIN
     WEBPACKER_DEV_SERVER_HOST: webpack-dev-server
   depends_on:
     db:

@@ -21,6 +21,8 @@ module Wallets
       # デフォルトではウォレット作らず、別規約に同意で作成の手順なのでデフォルトでウォレット存在せず
       # コントローラーで弾くなりしたい
 
+      # TODO: ここで複数のリクエストを作ればいい？
+
       WalletTransferRequest.create!(
         token: @token,
         sender: @sender,
