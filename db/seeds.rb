@@ -8,9 +8,10 @@ end
 # Create UTXO Provider
 # glueby_wallet_id が UTXO_PROVIDER_WALLET なことは自明だがインスタンスの生成のため呼び出し
 glueby_wallet_id = Glueby::UtxoProvider.instance.wallet.id
-utxo_provider_wallet = Wallet.create!(glueby_wallet_id:)
+utxo_provider_wallet = Wallet.find_or_create_by!(glueby_wallet_id:)
 
 # Create Token
+return if Token.find_by(id: 1).present?
 # UTXO Provider に資金を送る
 Glueby::StartBlockSyncerJob.perform_now
 Glueby::ManageUtxoPoolJob.perform_now
