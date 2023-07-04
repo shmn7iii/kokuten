@@ -1,8 +1,9 @@
 import * as WebAuthnJSON from "@github/webauthn-json"
 import {csrfToken} from '@rails/ujs'
+import * as Flash from "flash";
 
-function callback(url, body) {
-    fetch(url, {
+function callback(callbackUrl, body, redirectUrl) {
+    fetch(callbackUrl, {
         method: "POST",
         body: JSON.stringify(body),
         headers: {
@@ -13,35 +14,29 @@ function callback(url, body) {
         credentials: 'same-origin'
     }).then(function (response) {
         if (response.ok) {
-            window.location.replace("/")
+            window.location.replace(redirectUrl)
         } else if (response.status < 500) {
-            console.log(response);
-
+            response.text().then(Flash.rewrite)
         } else {
-            console.log(response);
-            console.log("Sorry, something wrong happened.");
+            Flash.rewrite("Sorry, something wrong happened.");
         }
     });
 }
 
-function create(callbackUrl, credentialOptions) {
+function create(callbackUrl, credentialOptions, redirectUrl) {
     WebAuthnJSON.create({"publicKey": credentialOptions}).then(function (credential) {
-        callback(callbackUrl, credential);
+        callback(callbackUrl, credential, redirectUrl);
     }).catch(function (error) {
-        console.log(error);
+        Flash.rewrite(error.message);
     });
-
-    console.log("Creating new public key credential...");
 }
 
-function get(callbackUrl, credentialOptions) {
+function get(callbackUrl, credentialOptions, redirectUrl) {
     WebAuthnJSON.get({"publicKey": credentialOptions}).then(function (credential) {
-        callback(callbackUrl, credential);
+        callback(callbackUrl, credential, redirectUrl);
     }).catch(function (error) {
-        console.log(error);
+        Flash.rewrite(error.message);
     });
-
-    console.log("Getting public key credential...");
 }
 
 export {create, get}

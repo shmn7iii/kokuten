@@ -6,7 +6,8 @@ export default class extends Controller {
         const [data, status, xhr] = event.detail;
         const credentialOptions = data;
         const callback_url = encodeURI(`/login/callback`)
+        const redirect_url = encodeURI(`/user`)
 
-        Credential.get(callback_url, credentialOptions)
+        Credential.get(callback_url, credentialOptions, redirect_url)
     }
 }

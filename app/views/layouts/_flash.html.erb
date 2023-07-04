@@ -1,9 +1,11 @@
-<% if flash['alert'] %>
-  <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-    <%= sanitize flash['alert'], tags: %w(br) %>
-  </div>
-<% elsif flash['notice'] %>
-  <div class="bg-teal-100 border border-teal-400 text-teal-700 px-4 py-3 rounded relative" role="notice">
-    <%= sanitize flash['alert'], tags: %w(br) %>
-  </div>
-<% end %>
+<div id="flash">
+  <% if flash[:alert] || params[:flash_alert] %>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+      <%= sanitize flash[:alert] || params[:flash_alert], tags: %w(br) %>
+    </div>
+  <% elsif flash[:notice] || params[:flash_notice] %>
+    <div class="bg-teal-100 border border-teal-400 text-teal-700 px-4 py-3 rounded relative" role="notice">
+      <%= sanitize flash[:notice] || params[:flash_notice], tags: %w(br) %>
+    </div>
+  <% end %>
+</div>
