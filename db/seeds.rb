@@ -12,6 +12,7 @@ utxo_provider_wallet = Wallet.find_or_create_by!(glueby_wallet_id:)
 
 # Create Token
 return if Token.find_by(id: 1).present?
+
 # UTXO Provider に資金を送る
 Glueby::StartBlockSyncerJob.perform_now
 Glueby::ManageUtxoPoolJob.perform_now
