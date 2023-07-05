@@ -3,7 +3,7 @@
 rm -f /monoiroha/tmp/pids/server.pid
 
 # If running the rails server then create or migrate existing database
-if [ "${*}" == "bin/dev" ]; then
+if [ "${*}" == "bin/dev" ] || [ "${*}" == "bin/bundle exec puma -C config/puma.rb" ]; then
   ./bin/rails db:create
   ./bin/rails ridgepole:apply
   ./bin/rails db:seed
