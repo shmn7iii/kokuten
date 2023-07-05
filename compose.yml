@@ -3,11 +3,12 @@ version: "3.8"
 x-app: &app
   build:
     context: .
-    dockerfile: ./docker/web/Dockerfile.development
+    dockerfile: ./docker/web/Dockerfile
   environment:
+    APP_HOST: $APP_HOST
     MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
     RAILS_MASTER_KEY: $RAILS_MASTER_KEY
-    RAILS_ENV: development
+    RAILS_ENV: production
     REDIS_URL: redis://redis:6379
     TAPYRUS_AUTHORITY_KEY: cUJN5RVzYWFoeY8rUztd47jzXCu1p57Ay8V7pqCzsBD3PEXN7Dd4
     TAPYRUS_CHAIN_PARAMS: dev
@@ -17,7 +18,6 @@ x-app: &app
     TAPYRUS_RPC_PASSWORD: rpcpassword
     TZ: Asia/Tokyo
     WEBAUTHN_ORIGIN: $WEBAUTHN_ORIGIN
-    WEBPACKER_DEV_SERVER_HOST: webpack-dev-server
   depends_on:
     db:
       condition: service_healthy
@@ -25,22 +25,37 @@ x-app: &app
       condition: service_started
     redis:
       condition: service_healthy
-  volumes:
-    - .:/rails
 
 services:
   web:
     <<: *app
-    command: bin/dev
+    command: bin/bundle exec puma -C config/puma.rb
     healthcheck:
       test: [ "CMD", "curl" ,"127.0.0.1:3000" ]
       interval: 10s
       timeout: 10s
       retries: 30
-    tty: true
-    stdin_open: true
+    volumes:
+      - public-data:/rails/public
+      - tmp-data:/rails/tmp
+      - log-data:/rails/log
+
+  nginx:
+    image: nginx:alpine
+    environment:
+      APP_HOST: $APP_HOST
     ports:
-      - "3000:3000"
+      - 80:80
+      - 443:443
+    volumes:
+      - ./docker/nginx:/etc/nginx/templates
+      - certs:/etc/letsencrypt
+      - certs-data:/var/lib/letsencrypt
+      - public-data:/kokuten/public
+      - tmp-data:/kokuten/tmp
+    depends_on:
+      web:
+        condition: service_healthy
 
   db:
     image: mysql:8.0
@@ -83,13 +98,12 @@ services:
     volumes:
       - redis:/data
 
-  webpack-dev-server:
-    <<: *app
-    command: ./bin/webpack-dev-server
-    environment:
-      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
-
 volumes:
   redis:
   tapyrus:
   db:
+  certs:
+  certs-data:
+  public-data:
+  tmp-data:
+  log-data:
