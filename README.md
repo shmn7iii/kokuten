@@ -1,24 +1,27 @@
-# README
+# Kokuten
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Development
 
-Things you may want to cover:
+```bash
+$ vim .env
+RAILS_MASTER_KEY=<master_key>
+MYSQL_ROOT_PASSWORD=<password>
+WEBAUTHN_ORIGIN=<https://localhost:3000>
 
-* Ruby version
+$ docker compose -f compose.development.yml up -d
+```
 
-* System dependencies
+## Deployment
 
-* Configuration
+```bash
+$ vim .env
+RAILS_MASTER_KEY=<master_key>
+MYSQL_ROOT_PASSWORD=<password>
+WEBAUTHN_ORIGIN=<https://example.com>
+APP_HOST=<example.com>
+CERT_MAIL=<shmn7iii@example.com>
 
-* Database creation
+$ bash bin/certbot
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+$ docker compose up -d
+```
