@@ -15,7 +15,7 @@
               ¥
             </span>
             <span class="text-4xl font-bold text-gray-800">
-              <%= number_to_currency(current_user.account.balance.to_i, locale: :jp) %>
+              <%= number_to_currency(current_user.account.balance, locale: :jp) %>
             </span>
           </div>
         </div>
