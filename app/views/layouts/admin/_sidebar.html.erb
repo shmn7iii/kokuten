@@ -1,0 +1,44 @@
+<% sidebar_contents_array = [
+  [
+    { title: "Dashboard", path: admin_dashboard_path },
+    { title: "Funds Transaction", path: admin_funds_transactions_path },
+    { title: "Token Transaction", path: admin_token_transactions_path },
+    { title: "UTXO Provider", path: admin_utxo_provider_path },
+  ],
+  [
+    { title: "User", path: admin_users_path },
+    { title: "Wallet Deposit Request", path: admin_wallet_deposit_requests_path },
+    { title: "Wallet Transfer Request", path: admin_wallet_transfer_requests_path },
+    { title: "Wallet Withdrawal Request", path: admin_wallet_withdrawal_requests_path },
+  ],
+  [
+    { title: "-> Sidekiq", path: '/sidekiq' },
+    { title: "<- Kokuten", path: root_path },
+  ]
+] %>
+
+<aside id="separator-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 shadow" aria-label="Sidebar">
+  <div class="h-full px-3 py-4 overflow-y-auto bg-gray-100">
+
+    <%= link_to admin_dashboard_path, class: "inline-flex items-center gap-2.5 text-black-800 text-xl font-bold" do %>
+      <svg width="100" height="100" viewBox="0 0 100 100" class="h-auto w-6 text-teal-500" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="100" fill="currentColor"/>
+        <polygon points="100,20 20,100 100,180 180,100" fill="#FFFFFF"/>
+        <circle cx="100" cy="100" r="40" fill="currentColor"/>
+      </svg>
+      Kokuten Admin
+    <% end %>
+
+    <% sidebar_contents_array.each do |contents| %>
+      <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-300">
+        <% contents.each do |content| %>
+          <li>
+            <%= link_to content[:path], class: "flex items-center p-2 text-gray-900 font-bold rounded-lg hover:bg-gray-200 group" do %>
+              <% content[:title] %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+</aside>

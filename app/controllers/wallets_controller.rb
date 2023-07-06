@@ -7,6 +7,7 @@ class WalletsController < ApplicationController
 
   def show
     @wallet = current_user.wallet
+    @wallet_transactions = @wallet.wallet_transactions.order(transaction_time: :DESC)
   end
 
   def new; end
