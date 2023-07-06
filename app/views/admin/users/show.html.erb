@@ -1,0 +1,56 @@
+<h5 class="text-l font-bold mb-1">
+  User Information
+</h5>
+<div class="relative overflow-x-auto">
+  <table class="w-full text-sm text-left text-gray-500 border">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 border">
+    <tr>
+      <th scope="col" class="border px-6 py-3">
+        Username
+      </th>
+      <th scope="col" class="border px-6 py-3">
+        First Name
+      </th>
+      <th scope="col" class="border px-6 py-3">
+        Last Name
+      </th>
+      <th scope="col" class="border px-6 py-3">
+        Phone number
+      </th>
+      <th scope="col" class="border px-6 py-3">
+        email
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="bg-white border">
+      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+        <%= @user.username %>
+      </th>
+      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+        <%= @user.first_name %>
+      </th>
+      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+        <%= @user.last_name %>
+      </th>
+      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+        <%= @user.phone_number %>
+      </th>
+      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+        <%= @user.email %>
+      </th>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="flex gap-4  mt-5">
+  <div class="block">
+    <%= link_to "Account", admin_user_account_path(user_id: @user.id), class: "focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" %>
+  </div>
+  <% if @user.wallet.present? %>
+    <div class="block">
+      <%= link_to "Wallet", admin_user_wallet_path(user_id: @user.id), class: "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" %>
+    </div>
+  <% end %>
+</div>

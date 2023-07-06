@@ -31,6 +31,24 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :admin do
+    resource :dashboard, only: %i[show]
+    resources :funds_transactions, only: %i[index show]
+    resources :token_transactions, only: %i[index]
+    resource :utxo_provider, only: %i[show]
+
+    resources :users, only: %i[index show] do
+      scope module: :users do
+        resource :account, only: %i[show]
+        resource :wallet, only: %i[show]
+      end
+    end
+
+    resources :wallet_deposit_requests, only: %i[index]
+    resources :wallet_transfer_requests, only: %i[index]
+    resources :wallet_withdrawal_requests, only: %i[index]
+  end
+
   if Rails.env.development?
     require 'sidekiq/web'
     require 'sidekiq/cron/web'

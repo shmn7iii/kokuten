@@ -1,0 +1,141 @@
+<h5 class="text-l font-bold mb-1">
+  Transaction Detail
+</h5>
+<div class="relative overflow-x-auto">
+  <table class="w-full text-sm text-left text-gray-500 border">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 border">
+    <tr>
+      <th scope="col" class="border px-6 py-3">
+        ID
+      </th>
+      <th scope="col" class="border px-6 py-3">
+        Source Transaction
+      </th>
+      <th scope="col" class="border px-6 py-3">
+        Target Transaction
+      </th>
+      <th scope="col" class="border px-6 py-3">
+        Transaction Type
+      </th>
+      <th scope="col" class="border px-6 py-3">
+        Transaction Time
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="bg-white border-b border">
+      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+        <%= @funds_transaction.id %>
+      </th>
+      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+        <%= "#{@funds_transaction.source_type}##{@funds_transaction.source_id}" %>
+      </th>
+      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+        <%= "#{@funds_transaction.target_type}##{@funds_transaction.target_id}" %>
+      </th>
+      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+        <%= @funds_transaction.transaction_type %>
+      </th>
+      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+        <%= @funds_transaction.transaction_time %>
+      </th>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<h5 class="text-l font-bold mb-1 mt-5">
+  SourceTransaction
+</h5>
+<div class="relative overflow-x-auto">
+  <table class="w-full text-sm text-left text-gray-500 border">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 border">
+    <tr>
+      <th scope="col" class="border px-6 py-3">
+        Source
+      </th>
+      <th scope="col" class="border px-6 py-3">
+        Username
+      </th>
+      <th scope="col" class="border px-6 py-3">
+        Amount
+      </th>
+      <th scope="col" class="border px-6 py-3">
+        Transaction Type
+      </th>
+      <th scope="col" class="border px-6 py-3">
+        Transaction Time
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @source_transaction.present? %>
+      <tr class="bg-white border">
+        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+          <%= "#{@funds_transaction.source_type}##{@funds_transaction.source_id}" %>
+        </th>
+        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+          <%= link_to @source_user.username, admin_user_path(@source_user.id), class: "font-medium text-blue-600 dark:text-blue-500 hover:underline" %>
+        </th>
+        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+          <%= @source_transaction.amount %>
+        </th>
+        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+          <%= @source_transaction.transaction_type %>
+        </th>
+        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+          <%= @source_transaction.transaction_time %>
+        </th>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<h5 class="text-l font-bold mb-1 mt-5">
+  TargetTransaction
+</h5>
+<div class="relative overflow-x-auto">
+  <table class="w-full text-sm text-left text-gray-500 border">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 border">
+    <tr>
+      <th scope="col" class="border px-6 py-3">
+        Target
+      </th>
+      <th scope="col" class="border px-6 py-3">
+        Username
+      </th>
+      <th scope="col" class="border px-6 py-3">
+        Amount
+      </th>
+      <th scope="col" class="border px-6 py-3">
+        Transaction Type
+      </th>
+      <th scope="col" class="border px-6 py-3">
+        Transaction Time
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @target_transaction.present? %>
+      <tr class="bg-white border">
+        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+          <%= "#{@funds_transaction.target_type}##{@funds_transaction.target_id}" %>
+        </th>
+        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+          <%= link_to @target_user.username, admin_user_path(@target_user.id), class: "font-medium text-blue-600 dark:text-blue-500 hover:underline" %>
+        </th>
+        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+          <%= @target_transaction.amount %>
+        </th>
+        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+          <%= @target_transaction.transaction_type %>
+        </th>
+        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border">
+          <%= @target_transaction.transaction_time %>
+        </th>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
