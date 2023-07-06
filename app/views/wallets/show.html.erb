@@ -19,7 +19,6 @@
         </div>
 
         <div class="space-y-2 mt-10">
-
           <div class="relative overflow-x-auto">
             <div class="mb-2 text-center text-2l font-bold text-gray-800">
               Wallet Transactions
@@ -27,9 +26,6 @@
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
-                <th scope="col" class="px-6 py-3">
-                  Transaction ID
-                </th>
                 <th scope="col" class="px-6 py-3">
                   Amount
                 </th>
@@ -42,11 +38,8 @@
               </tr>
               </thead>
               <tbody>
-              <% @wallet.wallet_transactions.each do |wt| %>
+              <% @wallet_transactions.each do |wt| %>
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td class="px-6 py-4">
-                    <%= wt.id %>
-                  </td>
                   <td class="px-6 py-4">
                     <%= number_to_currency(wt.amount, locale: :jp, unit: '₳ ') %>
                   </td>
@@ -54,127 +47,7 @@
                     <%= wt.transaction_type %>
                   </td>
                   <td class="px-6 py-4">
-                    <%= wt.transaction_time %>
-                  </td>
-                </tr>
-              <% end %>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="relative overflow-x-auto">
-            <div class="mb-2 text-center text-2l font-bold text-gray-800">
-              WalletDepositRequests
-            </div>
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" class="px-6 py-3">
-                  Request ID
-                </th>
-                <th scope="col" class="px-6 py-3">
-                  Amount
-                </th>
-                <th scope="col" class="px-6 py-3">
-                  Status
-                </th>
-              </tr>
-              </thead>
-              <tbody>
-              <% current_user.wallet_deposit_requests.each do |request| %>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td class="px-6 py-4">
-                    <%= request.id %>
-                  </td>
-                  <td class="px-6 py-4">
-                    <%= number_to_currency(request.amount, locale: :jp, unit: '₳ ') %>
-                  </td>
-                  <td class="px-6 py-4">
-                    <%= request.status %>
-                  </td>
-                </tr>
-              <% end %>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="relative overflow-x-auto">
-            <div class="mb-2 text-center text-2l font-bold text-gray-800">
-              WalletWithdrawalRequests
-            </div>
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" class="px-6 py-3">
-                  Request ID
-                </th>
-                <th scope="col" class="px-6 py-3">
-                  Amount
-                </th>
-                <th scope="col" class="px-6 py-3">
-                  Status
-                </th>
-              </tr>
-              </thead>
-              <tbody>
-              <% current_user.wallet_withdrawal_requests.each do |request| %>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td class="px-6 py-4">
-                    <%= request.id %>
-                  </td>
-                  <td class="px-6 py-4">
-                    <%= number_to_currency(request.amount, locale: :jp, unit: '₳ ') %>
-                  </td>
-                  <td class="px-6 py-4">
-                    <%= request.status %>
-                  </td>
-                </tr>
-              <% end %>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="relative overflow-x-auto">
-            <div class="mb-2 text-center text-2l font-bold text-gray-800">
-              WalletTransferRequests
-            </div>
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" class="px-6 py-3">
-                  Request ID
-                </th>
-                <th scope="col" class="px-6 py-3">
-                  Amount
-                </th>
-                <th scope="col" class="px-6 py-3">
-                  Sender
-                </th>
-                <th scope="col" class="px-6 py-3">
-                  Receiver
-                </th>
-                <th scope="col" class="px-6 py-3">
-                  Status
-                </th>
-              </tr>
-              </thead>
-              <tbody>
-              <% current_user.wallet_transfer_requests.each do |request| %>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td class="px-6 py-4">
-                    <%= request.id %>
-                  </td>
-                  <td class="px-6 py-4">
-                    <%= number_to_currency(request.amount, locale: :jp, unit: '₳ ') %>
-                  </td>
-                  <td class="px-6 py-4">
-                    <%= request.sender.username %>
-                  </td>
-                  <td class="px-6 py-4">
-                    <%= request.receiver.username %>
-                  </td>
-                  <td class="px-6 py-4">
-                    <%= request.status %>
+                    <%= wt.transaction_time.to_s(:db) %>
                   </td>
                 </tr>
               <% end %>
@@ -182,7 +55,6 @@
             </table>
           </div>
         </div>
-
       </div>
 
       <div class="mt-auto flex justify-end gap-8">
@@ -195,4 +67,3 @@
     </div>
   </div>
 </div>
-

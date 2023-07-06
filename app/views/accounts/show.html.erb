@@ -27,9 +27,6 @@
               <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" class="px-6 py-3">
-                  Transaction ID
-                </th>
-                <th scope="col" class="px-6 py-3">
                   Amount
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -41,11 +38,8 @@
               </tr>
               </thead>
               <tbody>
-              <% @account.account_transactions.each do |at| %>
+              <% @account_transactions.each do |at| %>
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td class="px-6 py-4">
-                    <%= at.id %>
-                  </td>
                   <td class="px-6 py-4">
                     <%= number_to_currency(at.amount, locale: :jp) %>
                   </td>
@@ -53,7 +47,7 @@
                     <%= at.transaction_type %>
                   </td>
                   <td class="px-6 py-4">
-                    <%= at.transaction_time %>
+                    <%= at.transaction_time.to_s(:db) %>
                   </td>
                 </tr>
               <% end %>
